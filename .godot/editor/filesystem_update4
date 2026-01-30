@@ -1,6 +1,3 @@
-res://node_2d.tscn
-res://Character.tscn
 res://scence/map.tscn
-res://scence/chest.gd
 res://scence/Character.tscn
-res://chest.gd
+res://scripts/character_body_2d.gd
