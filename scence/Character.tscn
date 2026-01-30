@@ -61,6 +61,9 @@ animation = &"idle"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(218, 229)
-zoom = Vector2(2.64, 2.64)
+zoom = Vector2(2, 2)
+process_callback = 0
+position_smoothing_enabled = true
 script = ExtResource("3_8i5xl")
 target = NodePath("../CharacterBody2D")
+deadzone_size = Vector2(400, 200)

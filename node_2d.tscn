@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 [gd_scene load_steps=7 format=3 uid="uid://6y0ceun323bq"]
+=======
+[gd_scene load_steps=7 format=3 uid="uid://ca871gnqf28m3"]
+>>>>>>> d3ef33f5c28764ea1438fc87fbe67830e17ba39d
 
 [ext_resource type="Script" path="res://character_body_2d.gd" id="1_x5fiq"]
 [ext_resource type="Script" path="res://chest.gd" id="2_2df8v"]
