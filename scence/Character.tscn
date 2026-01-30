@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://dxwnbayduyht2"]
+[gd_scene load_steps=9 format=3 uid="uid://dxwnbayduyht2"]
 
 [ext_resource type="Script" path="res://scripts/character_body_2d.gd" id="1_er6b0"]
 [ext_resource type="Texture2D" uid="uid://cn7hyiwl7lud4" path="res://assets/player.png" id="2_2dobs"]
+[ext_resource type="Script" path="res://scripts/Cammove.gd" id="3_8i5xl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u483r"]
 size = Vector2(102, 143.121)
@@ -43,17 +44,23 @@ animations = [{
 [node name="Character" type="Node2D"]
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
-position = Vector2(30, 42)
+position = Vector2(217, 231)
 script = ExtResource("1_er6b0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
-position = Vector2(185.7, 177.411)
+position = Vector2(1.99998, -1.52588e-05)
 scale = Vector2(0.7, 0.679)
 shape = SubResource("RectangleShape2D_u483r")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
 texture_filter = 1
-position = Vector2(185.5, 177.215)
+position = Vector2(1, 2)
 scale = Vector2(6, 6.076)
 sprite_frames = SubResource("SpriteFrames_ev7u7")
 animation = &"idle"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(218, 229)
+zoom = Vector2(2.64, 2.64)
+script = ExtResource("3_8i5xl")
+target = NodePath("../CharacterBody2D")
