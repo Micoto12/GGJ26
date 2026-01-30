@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [gd_scene load_steps=8 format=3 uid="uid://dcbqwjvagopsx"]
 
 [ext_resource type="Script" path="res://character_body_2d.gd" id="1_88lwa"]
@@ -39,10 +40,26 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u483r"]
 size = Vector2(104, 144.857)
+=======
+[gd_scene load_steps=7 format=3 uid="uid://dcbqwjvagopsx"]
+
+[ext_resource type="Script" path="res://character_body_2d.gd" id="1_x5fiq"]
+[ext_resource type="Script" path="res://chest.gd" id="2_2df8v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hmf5r"]
+size = Vector2(51, 54)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_elmbd"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_1px7p"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ehn81"]
+>>>>>>> meow
 
 [node name="Character" type="Node2D"]
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+<<<<<<< HEAD
 position = Vector2(30, 42)
 script = ExtResource("1_88lwa")
 
@@ -57,3 +74,27 @@ animation = &"idle"
 position = Vector2(185.5, 175.492)
 scale = Vector2(3.1087, 3.01688)
 shape = SubResource("RectangleShape2D_u483r")
+=======
+script = ExtResource("1_x5fiq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("RectangleShape2D_hmf5r")
+one_way_collision_margin = 0.0
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+position = Vector2(0, 2.86102e-06)
+scale = Vector2(52, 54)
+texture = SubResource("CanvasTexture_elmbd")
+
+[node name="Chest" type="Area2D" parent="."]
+position = Vector2(48, 22)
+script = ExtResource("2_2df8v")
+
+[node name="Sprite2D" type="Sprite2D" parent="Chest"]
+position = Vector2(0, 4.76837e-07)
+scale = Vector2(20, 20)
+texture = SubResource("CanvasTexture_1px7p")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chest"]
+shape = SubResource("RectangleShape2D_ehn81")
+>>>>>>> meow
