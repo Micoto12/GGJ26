@@ -2,7 +2,7 @@
 
 [ext_resource type="TileSet" uid="uid://dmk3lc0h2a1nt" path="res://assets/castle.tres" id="1_aq77k"]
 [ext_resource type="PackedScene" uid="uid://botn6sckr1fie" path="res://scene/Castle/door2.tscn" id="2_wviiu"]
-[ext_resource type="PackedScene" uid="uid://dxwnbayduyht2" path="res://scene/player.tscn" id="3_7rref"]
+[ext_resource type="PackedScene" uid="uid://dxwnbayduyht2" path="res://scene/Character.tscn" id="3_7rref"]
 
 [node name="Node2D" type="Node2D"]
 

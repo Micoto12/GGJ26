@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=4 uid="uid://bgybwwvmugb3s"]
 
 [ext_resource type="TileSet" uid="uid://dmk3lc0h2a1nt" path="res://assets/castle.tres" id="1_on71b"]
-[ext_resource type="PackedScene" uid="uid://dxwnbayduyht2" path="res://scene/player.tscn" id="2_eicdk"]
+[ext_resource type="PackedScene" uid="uid://dxwnbayduyht2" path="res://scene/Character.tscn" id="2_eicdk"]
 [ext_resource type="Script" path="res://scripts/Npc.gd" id="3_7ot8d"]
 [ext_resource type="Script" path="res://scripts/chest.gd" id="4_v7cof"]
 [ext_resource type="Script" path="res://scripts/Sign.gd" id="5_87h6i"]
