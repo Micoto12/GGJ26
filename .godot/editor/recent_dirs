@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 res://assets
 res://Audio
+=======
+res://scene/Castle/floor1
+res://assets
+res://
+>>>>>>> b4575255e19d64167160f325ca02fa9829f5edf3
 res://scene/Castle
 res://scene
 res://assets/Tails
 res://scripts
-res://
