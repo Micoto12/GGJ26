@@ -1,6 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://bgybwwvmugb3s"]
+[gd_scene load_steps=11 format=3 uid="uid://cdwnpetip175x"]
 
-[ext_resource type="PackedScene" uid="uid://dxwnbayduyht2" path="res://scene/Character.tscn" id="3_61lxm"]
+[ext_resource type="PackedScene" path="res://scene/Character.tscn" id="3_61lxm"]
 [ext_resource type="Script" path="res://scripts/chest.gd" id="3_aj2qg"]
 [ext_resource type="Script" path="res://scripts/Npc.gd" id="4_1s2mj"]
 [ext_resource type="TileSet" uid="uid://dmk3lc0h2a1nt" path="res://assets/castle.tres" id="4_8k8hi"]
@@ -70,5 +70,5 @@ position = Vector2(224, 58)
 linked_door = NodePath("../door2")
 
 [node name="door2" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("6_jbj1t")]
-position = Vector2(274, -134)
+position = Vector2(287, -147)
 linked_door = NodePath("../door")

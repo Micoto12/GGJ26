@@ -620,6 +620,7 @@ static func get_item_count(item_name: String) -> int:
 	
 	return 0
 
+
 # Получить список всех предметов в инвентаре
 static func get_inventory_items() -> Array:
 	if not instance or not instance.inventory_hud:

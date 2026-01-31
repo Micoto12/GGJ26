@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3 uid="uid://bfb0rercssy86"]
+
+[ext_resource type="Script" path="res://scripts/pause_menu.gd" id="1_hdvi6"]
+
+[node name="PauseMenu" type="CanvasLayer"]
+script = ExtResource("1_hdvi6")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Пауза"
+
+[node name="ContinueButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Продолжить"
+
+[node name="SettingsButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Настройки"
+
+[node name="MainMenuButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "В главное меню
+"

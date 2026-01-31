@@ -1,40 +1,51 @@
 extends Control
+
+@onready var master_slider: Slider = $VBoxContainer/VBoxContainer/HBoxContainer/MasterSlider
+@onready var music_slider: Slider = $VBoxContainer/VBoxContainer/HBoxContainer2/MusicSlider
+@onready var sfx_slider: Slider = $VBoxContainer/VBoxContainer/HBoxContainer3/SFXSlider
+@onready var back_button: Button = $VBoxContainer/BackButton
+
 func _ready():
-	load_slider_position()
+	# Кнопка "Назад"
+	back_button.connect("pressed", Callable(self, "_on_back_button_pressed"))
 
-func load_slider_position():
-	var config = ConfigFile.new()
-	var error = config.load("user://settings.cfg")
-	var volume_slider_node = find_child("VolumeSlider") # Находим ползунок
+	# Сигналы ползунков
+	master_slider.connect("value_changed", Callable(self, "_on_master_slider_value_changed"))
+	music_slider.connect("value_changed", Callable(self, "_on_music_slider_value_changed"))
+	sfx_slider.connect("value_changed", Callable(self, "_on_sfx_slider_value_changed"))
 
-	if error == OK and volume_slider_node:
-		# Читаем сохраненное значение
-		var saved_volume = config.get_value("Audio", "MasterVolume", 1.0)
-		
-		# Устанавливаем позицию ползунка на загруженное значение
-		volume_slider_node.value = saved_volume
-		
-		# Также сразу применяем громкость (на всякий случай)
-		_on_volume_slider_value_changed(saved_volume)
-func _on_volume_slider_value_changed(value: float) -> void:
-	var bus_index = AudioServer.get_bus_index("Master")
-	var db_value = linear_to_db(value)
-	AudioServer.set_bus_volume_db(bus_index, db_value)
+	# Инициализация ползунков по текущей громкости Music Autoload
+	master_slider.value = Music.master_volume
+	music_slider.value = Music.music_volume
+	sfx_slider.value = Music.sfx_volume
 
-func _on_button_pressed() -> void: # Предполагается, что это кнопка "Назад"
-	var config = ConfigFile.new()
-	
-	# Используем find_child() для поиска ползунка по имени
-	var volume_slider_node = find_child("VolumeSlider") 
 
-	if volume_slider_node:
-		# Убедимся, что значение записывается
-		print("Сохраняем громкость: ", volume_slider_node.value) 
-		config.set_value("Audio", "MasterVolume", volume_slider_node.value)
-		
-		# Файл user://settings.cfg будет создан автоматически здесь
-		var error = config.save("user://settings.cfg")
-		if error != OK:
-			print("ОШИБКА сохранения файла: ", error)
+# ----------------------------
+# Общая функция для установки громкости с отключением при нуле
+func set_bus_volume(bus_name: String, value: float) -> void:
+	var bus_index = AudioServer.get_bus_index(bus_name)
+	if value <= 0.01:  # минимальное значение — выключаем звук
+		AudioServer.set_bus_volume_db(bus_index, -80)
+	else:
+		AudioServer.set_bus_volume_db(bus_index, linear_to_db(value))
 
+
+# ----------------------------
+# События изменения ползунков
+func _on_master_slider_value_changed(value: float) -> void:
+	Music.master_volume = value
+	set_bus_volume("Master", value)
+
+func _on_music_slider_value_changed(value: float) -> void:
+	Music.music_volume = value
+	set_bus_volume("Music", value)
+
+func _on_sfx_slider_value_changed(value: float) -> void:
+	Music.sfx_volume = value
+	set_bus_volume("SFX", value)
+
+
+# ----------------------------
+# Кнопка "Назад"
+func _on_back_button_pressed():
 	get_tree().change_scene_to_file("res://scene/main_menu.tscn")

@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://c6fc48swjj3u4"]
+[gd_scene load_steps=9 format=3 uid="uid://c6fc48swjj3u4"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_0d0bq"]
+[ext_resource type="Texture2D" uid="uid://drqo6u4dutvj2" path="res://assets/Tails/wall_g_tile.png" id="2_qqhkc"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_87rbu"]
 
@@ -65,28 +66,25 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 48.0
-offset_top = 28.0
-offset_right = 48.0
-offset_bottom = 28.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0d0bq")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_qqhkc")
+expand_mode = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -10.0
-offset_top = -9.0
-offset_right = -10.0
-offset_bottom = -9.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -129,6 +127,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_kqlhi")
 theme_override_styles/normal = SubResource("StyleBoxFlat_q0dfs")
 text = "Выход"
 
+[connection signal="focus_entered" from="CenterContainer/Main/StartButton" to="." method="_on_start_button_focus_entered"]
 [connection signal="pressed" from="CenterContainer/Main/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="CenterContainer/Main/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="CenterContainer/Main/ExitButton" to="." method="_on_exit_button_pressed"]
