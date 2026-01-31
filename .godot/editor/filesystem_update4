@@ -1,8 +1,5 @@
-res://scripts/Global.gd
-res://scene/main_menu.tscn
-res://scene/main.tscn
+res://scene/castle.tscn
 res://assets/castle.tres
-<<<<<<< HEAD
 res://scene/Character.tscn
 res://scene/Main.tscn
 res://scene/Castle/Door.tscn
@@ -24,10 +21,3 @@ res://scene/Castle/floor1/Podsobka.tscn
 res://scene/Castle/floor1/koridor.tscn
 res://scene/Castle/floor1/kitchen.tscn
 res://scene/Castle/floor1/Zapas.tscn
-=======
-res://scene/map.tscn
-res://scene/castle.tscn
-res://scripts/main_menu.gd
-res://scripts/Npc.gd
-res://Audio/music.gd
->>>>>>> 01f045608a680495eae5b6e4a76cb51785bee4cf
