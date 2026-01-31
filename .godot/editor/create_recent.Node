@@ -1,3 +1,11 @@
+Button
+Label
+Panel
+TextureRect
+HBoxContainer
+Control
+GridContainer
+CanvasLayer
 TileMapLayer
 CollisionShape2D
 CharacterBody2D

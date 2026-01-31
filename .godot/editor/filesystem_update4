@@ -1,3 +1,10 @@
+<<<<<<< HEAD
 res://scence/map.tscn
 res://scence/Character.tscn
 res://scripts/character_body_2d.gd
+=======
+res://scene/Character.tscn
+res://scene/map.tscn
+res://scene/InventoryHUD.tscn
+res://scene/Dialog.tscn
+>>>>>>> 6550db1 (Chest)

@@ -23,3 +23,8 @@ func _physics_process(_delta):
 	
 	# Двигаем персонажа
 	move_and_slide()
+
+func _input(event):
+	# Открываем инвентарь по I
+	if event.is_action_pressed("inventory"):
+		Global.toggle_inventory()
