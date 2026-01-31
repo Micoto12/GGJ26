@@ -1,5 +1,5 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1769853598
+::res://::1769853681
 character_body_2d.gd::GDScript::-1::1769853424::0::1::::<>CharacterBody2D<>::
 icon.svg::CompressedTexture2D::2475109168858101138::1769847112::1769847209::1::::<><>::
 Inventory.gd::GDScript::-1::1769853424::0::1::::Inventory<>CanvasLayer<>::
@@ -22,13 +22,13 @@ wall_g_tile.png::CompressedTexture2D::8386408929930727705::1769853437::176985348
 wood_tile.png::CompressedTexture2D::3909241588253907951::1769853437::1769853486::1::::<><>::
 ::res://assets/Walls/::1769853437
 Wall1.tscn::PackedScene::7680605147044096690::1769853437::0::1::::<><>::
-::res://scene/::1769853598
-castle.tscn::PackedScene::-1::1769853437::0::1::::<><>::
+::res://scene/::1769854259
+castle.tscn::PackedScene::2857200004604189822::1769854259::0::1::::<><>::uid://di1gq0b35q5tx::::res://assets/Tails/tile_map_0.1.png<>uid://dxwnbayduyht2::::res://scene/Character.tscn<>res://scripts/chest.gd<>res://scripts/Npc.gd<>res://scripts/Sign.gd
 Character.tscn::PackedScene::8819812909282523037::1769853437::0::1::::<><>::res://scripts/character_body_2d.gd<>uid://cn7hyiwl7lud4::::res://assets/player.png<>res://scripts/Cammove.gd
 Dialog.tscn::PackedScene::8640859618073696270::1769853424::0::1::::<><>::
-InventoryHUD.tscn::PackedScene::2376401828110281848::1769853424::0::1::::<><>::res://scripts/Inventory.gd
+InventoryHUD.tscn::PackedScene::2376401828110281848::1769854259::0::1::::<><>::res://scripts/Inventory.gd
 level.gd::GDScript::-1::1769853437::0::1::::<>Node2D<>::
-map (1).tscn::PackedScene::5224659675441641922::1769853592::0::1::::<><>::uid://bvxwvxkschdrj::::res://assets/Tails/wood_tile.png<>uid://dxwnbayduyht2::::res://scence/Character.tscn<>uid://dhospd8nsbi1w::::res://assets/Walls/Wall1.tscn
+map.tscn::PackedScene::5224659675441641922::1769854259::0::1::::<><>::uid://bvxwvxkschdrj::::res://assets/Tails/wood_tile.png<>uid://dxwnbayduyht2::::res://scene/Character.tscn<>uid://dhospd8nsbi1w::::res://assets/Walls/Wall1.tscn
 ::res://scripts/::1769853437
 Cammove.gd::GDScript::-1::1769847112::0::1::::<>Camera2D<>::
 character_body_2d.gd::GDScript::-1::1769853437::0::1::::<>CharacterBody2D<>::

@@ -6,3 +6,4 @@ res://scripts/Sign.gd
 res://scripts/Npc.gd
 res://scripts/InventoryHUD.gd
 res://scene/castle.tscn
+res://scripts/Global.gd

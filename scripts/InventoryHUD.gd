@@ -12,27 +12,26 @@ class_name InventoryHUD
 
 # Данные предметов в слотах
 var items: Array = [
-	{"name": "", "count": 0, "texture": null},
-	{"name": "", "count": 0, "texture": null},
-	{"name": "", "count": 0, "texture": null},
-	{"name": "", "count": 0, "texture": null}
+	{"name": "", "count": 0, "texture_path": ""},
+	{"name": "", "count": 0, "texture_path": ""},
+	{"name": "", "count": 0, "texture_path": ""},
+	{"name": "", "count": 0, "texture_path": ""}
 ]
 
 func _ready():
-	print("HUD инвентарь загружен и показан")
+	print("InventoryHUD готов")
 	show()
 	update_display()
 
-# Главная функция добавления предмета
+# Добавить предмет
 func add_item(item_name: String, texture: Texture = null, count: int = 1) -> bool:
-	print("Добавляем в инвентарь: ", item_name, " x", count)
+	print("InventoryHUD: добавляем ", item_name, " x", count)
 	
 	# Сначала ищем, есть ли уже такой предмет
 	for i in range(items.size()):
 		if items[i]["name"] == item_name:
 			items[i]["count"] += count
 			update_slot(i)
-			print("✓ Увеличили количество в слоте ", i+1, " до ", items[i]["count"])
 			return true
 	
 	# Если предмет новый, ищем пустой слот
@@ -44,13 +43,12 @@ func add_item(item_name: String, texture: Texture = null, count: int = 1) -> boo
 				"texture": texture
 			}
 			update_slot(i)
-			print("✓ Добавили в пустой слот ", i+1)
 			return true
 	
-	print("✗ Нет свободных слотов!")
+	print("Нет свободных слотов!")
 	return false
 
-# Обновить конкретный слот
+# Обновить слот
 func update_slot(slot_index: int):
 	if slot_index < 0 or slot_index >= slots.size():
 		return
@@ -80,31 +78,30 @@ func update_display():
 	for i in range(slots.size()):
 		update_slot(i)
 
-# Получить количество конкретного предмета
+# Получить количество предмета
 func get_item_count(item_name: String) -> int:
 	var total = 0
 	for item in items:
 		if item["name"] == item_name:
 			total += item["count"]
-	print("Количество ", item_name, " в инвентаре: ", total)
+	print("InventoryHUD: количество ", item_name, " = ", total)
 	return total
 
 # Проверить наличие предмета
 func has_item(item_name: String, min_count: int = 1) -> bool:
-	var total = get_item_count(item_name)
-	print("Проверка наличия ", item_name, " (нужно ", min_count, ", есть ", total, "): ", total >= min_count)
-	return total >= min_count
+	var count = get_item_count(item_name)
+	return count >= min_count
 
 # Удалить предмет
 func remove_item(item_name: String, count: int = 1) -> bool:
-	print("Пытаемся удалить: ", item_name, " x", count)
+	print("InventoryHUD: пытаемся удалить ", item_name, " x", count)
 	
-	# Сначала проверяем, достаточно ли предметов
+	# Проверяем, достаточно ли предметов
 	if get_item_count(item_name) < count:
-		print("✗ Недостаточно предметов для удаления")
+		print("Недостаточно предметов для удаления")
 		return false
 	
-	# Удаляем предметы из слотов
+	# Удаляем предметы
 	var remaining = count
 	for i in range(items.size()):
 		if items[i]["name"] == item_name:
@@ -113,21 +110,18 @@ func remove_item(item_name: String, count: int = 1) -> bool:
 				if items[i]["count"] <= 0:
 					items[i] = {"name": "", "count": 0, "texture": null}
 				update_slot(i)
-				print("✓ Удалили ", count, " предметов из слота ", i+1)
 				return true
 			else:
 				remaining -= items[i]["count"]
 				items[i] = {"name": "", "count": 0, "texture": null}
 				update_slot(i)
 	
-	print("✗ Не удалось удалить предмет")
 	return false
 
-# Получить список всех предметов (для отладки)
+# Получить все предметы
 func get_items() -> Array:
 	var result = []
 	for item in items:
 		if item["name"] != "":
 			result.append(item.duplicate())
-	print("Все предметы в инвентаре: ", result)
 	return result
