@@ -1,72 +1,85 @@
+# music.gd
 extends Node
 
-@onready var player: AudioStreamPlayer = $AudioStreamPlayer
+# --- ПЛЕЕРЫ ---
+var music_player: AudioStreamPlayer
+var sfx_player: AudioStreamPlayer
 
-# Все треки
+# --- ТРЕКИ ---
 const TRACKS = {
 	"menu": preload("res://Audio/music/main_music.ogg"),
 	"room1": preload("res://Audio/music/scene1.ogg"),
 }
 
-# Громкость по умолчанию
-var master_volume: float = 1.0
-var music_volume: float = 1.0
-var sfx_volume: float = 1.0
+const SFX_TRACKS = {
+	"click": preload("res://audio/sfx/click.ogg"),
+	"hover": preload("res://audio/sfx/hover.ogg"),
+}
 
-# Текущий трек
-var current_track: String = ""
+# --- ГРОМКОСТЬ ---
+var master_volume := 1.0
+var music_volume := 1.0
+var sfx_volume := 1.0
+
+var current_track := ""
 
 func _ready():
-	# Применяем текущую громкость к AudioServer при старте
-	_update_volumes()
-	
+	# 🎵 Music player
+	music_player = AudioStreamPlayer.new()
+	music_player.bus = "Music"
+	add_child(music_player)
 
+	# 🔊 SFX player
+	sfx_player = AudioStreamPlayer.new()
+	sfx_player.bus = "SFX"
+	add_child(sfx_player)
+
+	_update_volumes()
 
 # ----------------------------
-# Воспроизведение трека
+# МУЗЫКА
 func play(name: String):
 	if not TRACKS.has(name):
-		push_warning("Нет музыки с именем: " + name)
+		push_warning("Нет музыки: " + name)
 		return
 
 	if current_track != name:
 		current_track = name
-		player.stream = TRACKS[name]
-		player.play()
-
-
-# ----------------------------
-# Функции изменения громкости
-func set_master_volume(value: float):
-	master_volume = value
-	_update_volumes()
-
-func set_music_volume(value: float):
-	music_volume = value
-	_update_volumes()
-
-func set_sfx_volume(value: float):
-	sfx_volume = value
-	_update_volumes()
-
+		music_player.stream = TRACKS[name]
+		music_player.play()
 
 # ----------------------------
-# Применение громкости к Audio Bus
+# SFX
+func play_sfx(name: String):
+	if not SFX_TRACKS.has(name):
+		push_warning("Нет SFX: " + name)
+		return
+
+	sfx_player.stream = SFX_TRACKS[name]
+	sfx_player.play()
+
+# ----------------------------
+# ГРОМКОСТЬ
+func set_master_volume(v: float):
+	master_volume = v
+	_update_volumes()
+
+func set_music_volume(v: float):
+	music_volume = v
+	_update_volumes()
+
+func set_sfx_volume(v: float):
+	sfx_volume = v
+	_update_volumes()
+
 func _update_volumes():
-	# Master
-	if master_volume <= 0.01:
-		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), -80)
-	else:
-		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear_to_db(master_volume))
+	_set_bus("Master", master_volume)
+	_set_bus("Music", music_volume)
+	_set_bus("SFX", sfx_volume)
 
-	# Music
-	if music_volume <= 0.01:
-		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), -80)
+func _set_bus(bus: String, value: float):
+	var idx = AudioServer.get_bus_index(bus)
+	if value <= 0.01:
+		AudioServer.set_bus_volume_db(idx, -80)
 	else:
-		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(music_volume))
-
-	# SFX
-	if sfx_volume <= 0.01:
-		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), -80)
-	else:
-		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), linear_to_db(sfx_volume))
+		AudioServer.set_bus_volume_db(idx, linear_to_db(value))

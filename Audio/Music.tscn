@@ -6,8 +6,11 @@
 [node name="Music" type="Node"]
 script = ExtResource("1_sfgg5")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_473it")
 volume_db = -5.0
 bus = &"Music"
 parameters/looping = false
+
+[node name="SFXPLayer" type="AudioStreamPlayer" parent="."]
+bus = &"SFX"

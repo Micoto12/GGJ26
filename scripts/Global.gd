@@ -28,11 +28,31 @@ func _ready():
 	create_message_label.call_deferred()
 	create_hud_inventory.call_deferred()
 	create_dialog.call_deferred()
-	
+	# 🔊 АВТО-SFX ДЛЯ КНОПОК
+	get_tree().node_added.connect(_on_node_added)
+
 	# Подписываемся на изменение размера окна
 	get_tree().root.size_changed.connect(_on_window_resized)
 	print("Global.gd инициализирован, режим окна: ", "Полноэкранный" if fullscreen_enabled else "Оконный")
-	
+func _on_node_added(node: Node):
+	if node is Button:
+		_attach_sfx_to_button(node)
+func _attach_sfx_to_button(button: Button):
+	# Нажатие
+	if not button.pressed.is_connected(_on_button_pressed):
+		button.pressed.connect(_on_button_pressed)
+
+	# Наведение
+	if not button.mouse_entered.is_connected(_on_button_hover):
+		button.mouse_entered.connect(_on_button_hover)
+func _on_button_pressed():
+	if Music:
+		Music.play_sfx("click")
+
+func _on_button_hover():
+	if Music:
+		Music.play_sfx("hover")
+
 func setup_window():
 	# Получаем главное окно
 	var window = get_window()
