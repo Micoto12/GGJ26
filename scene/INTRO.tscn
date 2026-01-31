@@ -1,10 +1,10 @@
-[gd_scene load_steps=29 format=3 uid="uid://dmvdpl5wnkiat"]
+[gd_scene load_steps=29 format=3 uid="uid://cf57kkyw3a8w5"]
 
-[ext_resource type="PackedScene" uid="uid://cdwnpetip175x" path="res://scene/castle.tscn" id="1_kkip0"]
+[ext_resource type="PackedScene" uid="uid://b2iu4ukeuumw1" path="res://scene/castle.tscn" id="1_kkip0"]
 [ext_resource type="Script" path="res://scripts/intro_script.gd" id="1_lorql"]
 [ext_resource type="Script" path="res://scripts/Npc1.gd" id="3_fir0o"]
 [ext_resource type="Script" path="res://scripts/Npc2.gd" id="4_3v8gi"]
-[ext_resource type="Texture2D" uid="uid://dk5btrcg2lxjm" path="res://assets/detective_sprite_by_willowwhips_dc5xcyw-fullview-no-bg-preview (carve.photos).png" id="4_8afgf"]
+[ext_resource type="Texture2D" path="res://assets/detective_sprite_by_willowwhips_dc5xcyw-fullview-no-bg-preview (carve.photos).png" id="4_8afgf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nkc5h"]
 size = Vector2(28, 40)
@@ -199,7 +199,7 @@ size = Vector2(195, 146)
 script = ExtResource("1_lorql")
 
 [node name="Castle" parent="." instance=ExtResource("1_kkip0")]
-position = Vector2(-121, 634)
+position = Vector2(384, -800)
 
 [node name="NPCMoving" type="CharacterBody2D" parent="."]
 position = Vector2(474, 827)

@@ -1,5 +1,9 @@
+res://scripts/Global.gd
+res://scene/main_menu.tscn
+res://scene/main.tscn
+res://assets/castle.tres
+res://scene/map.tscn
 res://scene/castle.tscn
-<<<<<<< HEAD
 res://scripts/main_menu.gd
 res://scripts/Npc.gd
 res://Audio/music.gd
@@ -11,31 +15,4 @@ res://scripts/Npc2.gd
 res://scene/INTRO.tscn
 res://scripts/intro_script.gd
 res://scripts/INTRO_script.tscn
-=======
-res://assets/castle.tres
-res://scene/Character.tscn
-res://scene/Main.tscn
-res://scene/Castle/Door.tscn
-res://scene/Castle/door.gd
-res://door.gd
-res://scene/Castle/door2.tscn
-res://scene/Castle/room 1/room1.tscn
-res://scene/Castle/room 1/room2.tscn
-res://scene/Castle/room 1/startroom.tscn
-res://scene/Castle/room 1/hall.tscn
-res://scene/Castle/room 1/Banket.tscn
-res://scene/Castle/floor1/Gen.tscn
-res://scene/Castle/floor1/TehCom.tscn
-res://scene/Castle/floor1/startroom.tscn
-res://scene/Castle/floor1/hall.tscn
-res://scene/Castle/floor1/Banket_1.tscn
-res://scene/Castle/floor1/sklad.tscn
-res://scene/Castle/floor1/Podsobka.tscn
-res://scene/Castle/floor1/koridor.tscn
-res://scene/Castle/floor1/kitchen.tscn
-res://scene/Castle/floor1/Zapas.tscn
-res://scene/main_menu.tscn
-res://scene/Castle/floor1/door3.tscn
-res://scene/Castle/floor1/door_3.gd
 res://scene/door3.tscn
->>>>>>> b4575255e19d64167160f325ca02fa9829f5edf3
