@@ -6,3 +6,8 @@ res://scene/Castle/Door.tscn
 res://scene/Castle/door.gd
 res://door.gd
 res://scene/Castle/door2.tscn
+res://scene/Castle/room 1/room1.tscn
+res://scene/Castle/room 1/room2.tscn
+res://scene/Castle/room 1/startroom.tscn
+res://scene/Castle/room 1/hall.tscn
+res://scene/Castle/room 1/Banket.tscn

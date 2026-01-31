@@ -1,0 +1,70 @@
+[gd_scene load_steps=10 format=4 uid="uid://bgybwwvmugb3s"]
+
+[ext_resource type="TileSet" uid="uid://dmk3lc0h2a1nt" path="res://assets/castle.tres" id="1_4j1vi"]
+[ext_resource type="PackedScene" uid="uid://dxwnbayduyht2" path="res://scene/Character.tscn" id="2_06gv5"]
+[ext_resource type="Script" path="res://scripts/Npc.gd" id="3_cnuh6"]
+[ext_resource type="Script" path="res://scripts/chest.gd" id="4_r55s2"]
+[ext_resource type="Script" path="res://scripts/Sign.gd" id="5_rt4kf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bs3pw"]
+size = Vector2(66, 66)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_a2u7t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_juh0l"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_vtakq"]
+
+[node name="Castle" type="Node2D"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_set = ExtResource("1_4j1vi")
+
+[node name="floor" type="TileMapLayer" parent="TileMapLayer"]
+use_parent_material = true
+tile_map_data = PackedByteArray("AAAAAAEAAAABAAAAAAABAAIAAAABAAAAAAACAAIAAAABAAAAAAADAAMAAAABAAAAAAAEAAMAAAABAAAAAAAGAAQAAAABAAAAAAAHAAQAAAABAAAAAAAHAAMAAAABAAAAAAAHAAIAAAABAAAAAAAHAAEAAAABAAAAAAAGAAEAAAABAAAAAAAFAAEAAAABAAAAAAABAAEAAAABAAAAAAACAAEAAAABAAAAAAADAAEAAAABAAAAAAAEAAEAAAABAAAAAAAFAAIAAAABAAAAAAAGAAIAAAABAAAAAAAGAAMAAAABAAAAAAAEAAIAAAABAAAAAAADAAIAAAABAAAAAAACAAMAAAABAAAAAAABAAMAAAABAAAAAAAAAAIAAAABAAAAAAAAAAMAAAABAAAAAAAAAAQAAAABAAAAAAABAAQAAAABAAAAAAACAAQAAAABAAAAAAAEAAQAAAABAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAEAAAAAAAAAAEAAAAFAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAFAAMAAAABAAAAAAADAAQAAAABAAAAAAAFAAQAAAABAAAAAAAIAAQAAAABAAAAAAAJAAQAAAABAAAAAAAJAAMAAAABAAAAAAAIAAMAAAABAAAAAAAIAAIAAAABAAAAAAAIAAEAAAABAAAAAAAJAAEAAAABAAAAAAAJAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAJAAIAAAABAAAAAAAJAP//AAAIAAAAAAADAAAAAAADAAAAAAA=")
+tile_set = ExtResource("1_4j1vi")
+
+[node name="Wall" type="TileMapLayer" parent="TileMapLayer"]
+z_index = 1
+use_parent_material = true
+tile_map_data = PackedByteArray("AAAHAP//AAAIAAAAAAAIAP//AAAIAAAAAAAGAP//AAAIAAAAAAAFAP//AAAIAAAAAAAEAP//AAAIAAAAAAADAP//AAAIAAAAAAAAAP//AAAIAAAAAAABAP//AAAIAAAAAAADAAUAAAAKAAAAAAAHAAUAAAAKAAAAAAAGAAUAAAAKAAAAAAAFAAUAAAAKAAAAAAAEAAUAAAAKAAAAAAABAAUAAAAKAAAAAAAAAAUAAAAKAAAAAAACAAUAAAAKAAAAAAD//wQAAAAJAAAAAAD//wMAAAAJAAAAAAD//wIAAAAJAAAAAAD//wEAAAAJAAAAAAD//wAAAAAJAAAAAAD/////AAAFAAAAAAD//wUAAAAGAAAAAAAIAAUAAAAKAAAAAAAKAAQAAAALAAAAAAAKAAIAAAALAAAAAAAKAAEAAAALAAAAAAAKAAAAAAALAAAAAAAKAP//AAAEAAAAAAAKAAUAAAAHAAAAAAAKAAMAAAALAAAAAAAJAAUAAAAKAAAAAAAJAP//AAAIAAAAAAACAP//AAAIAAAAAAA=")
+tile_set = ExtResource("1_4j1vi")
+
+[node name="player" parent="." instance=ExtResource("2_06gv5")]
+position = Vector2(71, -60)
+
+[node name="Area2D2" type="Area2D" parent="."]
+position = Vector2(586, 247)
+script = ExtResource("3_cnuh6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+shape = SubResource("RectangleShape2D_bs3pw")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D2"]
+position = Vector2(-1.90735e-06, -1.90735e-06)
+scale = Vector2(66, 66)
+texture = SubResource("CanvasTexture_a2u7t")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(541, 74)
+script = ExtResource("4_r55s2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_juh0l")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+scale = Vector2(20, 20)
+texture = SubResource("CanvasTexture_vtakq")
+
+[node name="Area2D3" type="Area2D" parent="."]
+position = Vector2(583, 148)
+script = ExtResource("5_rt4kf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D3"]
+shape = SubResource("RectangleShape2D_bs3pw")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D3"]
+position = Vector2(-1.90735e-06, -1.90735e-06)
+scale = Vector2(66, 66)
+texture = SubResource("CanvasTexture_a2u7t")
