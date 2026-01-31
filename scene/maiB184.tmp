@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://c6fc48swjj3u4"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_0d0bq"]
-[ext_resource type="Texture2D" uid="uid://drqo6u4dutvj2" path="res://assets/Tails/wall_g_tile.png" id="2_qqhkc"]
+[ext_resource type="Texture2D" path="res://assets/wall_g_tile.png" id="2_e6s11"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_87rbu"]
 
@@ -77,7 +77,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_qqhkc")
+texture = ExtResource("2_e6s11")
 expand_mode = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
@@ -127,7 +127,6 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_kqlhi")
 theme_override_styles/normal = SubResource("StyleBoxFlat_q0dfs")
 text = "Выход"
 
-[connection signal="focus_entered" from="CenterContainer/Main/StartButton" to="." method="_on_start_button_focus_entered"]
 [connection signal="pressed" from="CenterContainer/Main/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="CenterContainer/Main/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="CenterContainer/Main/ExitButton" to="." method="_on_exit_button_pressed"]

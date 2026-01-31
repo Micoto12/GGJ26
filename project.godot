@@ -11,7 +11,11 @@ config_version=5
 [application]
 
 config/name="GGJ_Mask"
+<<<<<<< HEAD
 run/main_scene="res://scene/Castle/floor1/startroom.tscn"
+=======
+run/main_scene="res://scene/main_menu.tscn"
+>>>>>>> 01f045608a680495eae5b6e4a76cb51785bee4cf
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 <<<<<<<HEADrun/main_scene="res://scene/castle.tscn"
@@ -19,6 +23,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Global="*res://scripts/Global.gd"
+Music="*res://Audio/Music.tscn"
 
 [global_group]
 

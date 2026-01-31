@@ -7,7 +7,7 @@ var dialog
 var interaction_prompt
 var message_label: Label
 var message_timer: Timer
-
+var simple_inventory_data = {}  # Будет хранить данные о предметах в простом инвентаре
 # Диалоговая система
 var dialog_panel: Panel
 var dialog_label: Label
@@ -290,8 +290,8 @@ func clear_dialog_buttons():
 			child.queue_free()
 	current_dialog_options.clear()
 
-# Создать кнопку диалога
-func create_dialog_button(button_text: String, callback: Callable = Callable()) -> Button:
+# Создать кнопку диалога с поддержкой keep_open
+func create_dialog_button(button_text: String, callback: Callable = Callable(), keep_open: bool = false) -> Button:
 	var button = Button.new()
 	button.text = button_text
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -327,10 +327,18 @@ func create_dialog_button(button_text: String, callback: Callable = Callable()) 
 	
 	# Подключаем обработчик
 	if callback.is_valid():
-		button.pressed.connect(func():
-			callback.call()
-			dialog.hide()  # Закрываем диалог после выбора
-		)
+		if keep_open:
+			# Если keep_open = true, не закрываем диалог после нажатия
+			button.pressed.connect(func():
+				callback.call()
+				# Диалог остается открытым
+			)
+		else:
+			# Если keep_open = false, закрываем диалог после нажатия
+			button.pressed.connect(func():
+				callback.call()
+				dialog.hide()  # Закрываем диалог после выбора
+			)
 	else:
 		button.pressed.connect(func(): dialog.hide())
 	
@@ -361,6 +369,7 @@ static func show_dialog(dialog_text: String, options: Array = []):
 		var button_text = option.get("text", "???")
 		var callback = option.get("callback", Callable())
 		var item_data = option.get("item_data", null)
+		var keep_open = option.get("keep_open", false)  # Получаем параметр keep_open
 		
 		# Если есть данные предмета, создаем специальный колбэк
 		if item_data and callback.is_null():
@@ -376,7 +385,7 @@ static func show_dialog(dialog_text: String, options: Array = []):
 						Global.show_message("Не удалось взять предмет", 3.0)
 		
 		# Создаем и добавляем кнопку
-		var button = instance.create_dialog_button(button_text, callback)
+		var button = instance.create_dialog_button(button_text, callback, keep_open)
 		instance.dialog_buttons_container.add_child(button)
 	
 	# Показываем диалог
@@ -444,6 +453,13 @@ static func add_item_to_simple_hud(item_name: String, texture: Texture, count: i
 					icon.texture = texture
 				icon.show()
 				
+				# Сохраняем данные о предмете
+				instance.simple_inventory_data[i] = {
+					"name": item_name,
+					"texture": texture,
+					"count": count
+				}
+				
 				# Ищем лейбл для количества
 				var count_label = null
 				for child in slot.get_children():
@@ -459,9 +475,34 @@ static func add_item_to_simple_hud(item_name: String, texture: Texture, count: i
 						count_label.text = ""
 						count_label.hide()
 				
-				print("✓ Предмет добавлен в слот", i+1)
+				print("✓ Предмет '", item_name, "' добавлен в слот", i+1)
 				return true
-		
+			else:
+				# Если в слоте уже есть предмет, проверяем, тот ли это предмет
+				var existing_item = instance.simple_inventory_data.get(i, {})
+				if existing_item.get("name", "") == item_name:
+					# Увеличиваем количество
+					var new_count = existing_item.get("count", 0) + count
+					instance.simple_inventory_data[i]["count"] = new_count
+					
+					# Обновляем отображение количества
+					var count_label = null
+					for child in slot.get_children():
+						if child.name == "Count" or child is Label:
+							count_label = child
+							break
+					
+					if count_label:
+						if new_count > 1:
+							count_label.text = str(new_count)
+							count_label.show()
+						else:
+							count_label.text = ""
+							count_label.hide()
+					
+					print("✓ Увеличено количество '", item_name, "' в слоте", i+1, " до ", new_count)
+					return true
+	
 	print("✗ Нет свободных слотов")
 	return false
 
@@ -587,9 +628,9 @@ static func has_item_in_inventory(item_name: String, min_count: int = 1) -> bool
 	if instance.inventory_hud.has_method("has_item"):
 		return instance.inventory_hud.has_item(item_name, min_count)
 	
-	# Иначе используем альтернативный способ проверки (для простого инвентаря)
-	print("Предупреждение: Инвентарь не имеет метода has_item, используется альтернативная проверка")
-	return false
+	# Иначе используем проверку для простого инвентаря
+	print("Используется проверка для простого инвентаря")
+	return check_simple_hud_for_item(item_name, min_count)
 
 # Удалить предмет из инвентаря
 static func remove_item_from_inventory(item_name: String, count: int = 1) -> bool:
@@ -601,8 +642,92 @@ static func remove_item_from_inventory(item_name: String, count: int = 1) -> boo
 	if instance.inventory_hud.has_method("remove_item"):
 		return instance.inventory_hud.remove_item(item_name, count)
 	
-	# Иначе используем альтернативный способ удаления (для простого инвентаря)
-	print("Предупреждение: Инвентарь не имеет метода remove_item, используется альтернативное удаление")
+	# Для простого инвентаря
+	print("Удаление из простого инвентаря: ", item_name, " x", count)
+	
+	# Проверяем, достаточно ли предметов
+	var available_count = get_item_count(item_name)
+	if available_count < count:
+		print("✗ Недостаточно предметов для удаления (нужно ", count, ", есть ", available_count, ")")
+		return false
+	
+	# Ищем HBoxContainer
+	var hbox = instance.inventory_hud.find_child("HBoxContainer", true, false)
+	if not hbox:
+		for child in instance.inventory_hud.get_children():
+			if child is HBoxContainer:
+				hbox = child
+				break
+	
+	if not hbox:
+		print("✗ HBoxContainer не найден")
+		return false
+	
+	var remaining_to_remove = count
+	
+	# Проходим по слотам и удаляем предметы
+	for i in range(hbox.get_child_count()):
+		if remaining_to_remove <= 0:
+			break
+		
+		var slot = hbox.get_child(i)
+		var item_data = instance.simple_inventory_data.get(i, {})
+		
+		if item_data.get("name", "") == item_name:
+			var slot_count = item_data.get("count", 0)
+			
+			if slot_count >= remaining_to_remove:
+				# Удаляем все необходимое количество из этого слота
+				item_data["count"] = slot_count - remaining_to_remove
+				
+				if item_data["count"] <= 0:
+					# Слот становится пустым
+					instance.simple_inventory_data[i] = {"name": "", "count": 0, "texture": null}
+					
+					# Скрываем иконку
+					var icon = null
+					for child in slot.get_children():
+						if child.name == "Icon" or child is TextureRect:
+							icon = child
+							break
+					if icon:
+						icon.hide()
+					
+					# Скрываем счетчик
+					var count_label = null
+					for child in slot.get_children():
+						if child.name == "Count" or child is Label:
+							count_label = child
+							break
+					if count_label:
+						count_label.hide()
+				else:
+					# Обновляем счетчик
+					instance.simple_inventory_data[i] = item_data
+					var count_label = null
+					for child in slot.get_children():
+						if child.name == "Count" or child is Label:
+							count_label = child
+							break
+					if count_label:
+						count_label.text = str(item_data["count"])
+						count_label.show()
+				
+				print("✓ Удалено ", count, " предметов '", item_name, "' из слота ", i+1)
+				return true
+			else:
+				# Удаляем все из этого слота и переходим к следующему
+				remaining_to_remove -= slot_count
+				instance.simple_inventory_data[i] = {"name": "", "count": 0, "texture": null}
+				
+				# Скрываем иконку и счетчик
+				for child in slot.get_children():
+					if child.name == "Icon" or child is TextureRect:
+						child.hide()
+					elif child.name == "Count" or child is Label:
+						child.hide()
+	
+	print("✗ Не удалось удалить предметы")
 	return false
 
 # Получить количество предмета в инвентаре
@@ -618,7 +743,18 @@ static func get_item_count(item_name: String) -> int:
 			if item.get("name") == item_name:
 				return item.get("count", 0)
 	
-	return 0
+	# Для простого инвентаря
+	print("Используется подсчет для простого инвентаря")
+	var total = 0
+	if instance.simple_inventory_data:
+		for slot_index in instance.simple_inventory_data:
+			var item_data = instance.simple_inventory_data[slot_index]
+			if item_data.get("name", "") == item_name:
+				total += item_data.get("count", 0)
+	
+	print("Найдено '", item_name, "' в количестве: ", total)
+	return total
+
 
 # Получить список всех предметов в инвентаре
 static func get_inventory_items() -> Array:
@@ -631,3 +767,61 @@ static func get_inventory_items() -> Array:
 		return instance.inventory_hud.get_items()
 	
 	return []
+# Функция для проверки наличия предмета в простом инвентаре
+static func check_simple_hud_for_item(item_name: String, min_count: int = 1) -> bool:
+	if not instance or not instance.inventory_hud:
+		return false
+	
+	var total = 0
+	var hbox = instance.inventory_hud.find_child("HBoxContainer", true, false)
+	
+	if not hbox:
+		# Ищем HBoxContainer среди всех детей
+		for child in instance.inventory_hud.get_children():
+			if child is HBoxContainer:
+				hbox = child
+				break
+	
+	if hbox:
+		# Проходим по всем слотам и ищем нужный предмет
+		for i in range(hbox.get_child_count()):
+			var slot = hbox.get_child(i)
+			
+			# Проверяем, есть ли иконка и она видима
+			var icon = null
+			for child in slot.get_children():
+				if child.name == "Icon" or child is TextureRect:
+					icon = child
+					break
+			
+			if icon and icon.visible:
+				# В простом инвентаре мы не храним имена предметов,
+				# поэтому будем считать, что предмет с нужной текстурой - это нужный предмет
+				# Для точной проверки нужно хранить данные о предметах
+				var item_data = instance.simple_inventory_data.get(i, {})
+				if item_data.get("name", "") == item_name:
+					total += item_data.get("count", 1)
+	
+	print("Проверка простого инвентаря: предмет '", item_name, "' найден в количестве ", total)
+	return total >= min_count
+
+# Функция для отладки - показывает содержимое инвентаря
+static func debug_inventory():
+	if not instance:
+		print("Global instance не существует")
+		return
+	
+	print("=== ДЕБАГ ИНВЕНТАРЯ ===")
+	
+	if instance.inventory_hud:
+		print("Тип инвентаря: ", instance.inventory_hud.get_class())
+		
+		if instance.inventory_hud.has_method("get_items"):
+			var items = instance.inventory_hud.get_items()
+			print("Предметы в инвентаре (через метод): ", items)
+		else:
+			print("Простого инвентаря данные: ", instance.simple_inventory_data)
+	else:
+		print("Инвентарь не создан")
+	
+	print("=====================")
