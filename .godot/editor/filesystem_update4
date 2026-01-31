@@ -2,3 +2,4 @@ res://scene/castle.tscn
 res://scripts/character_body_2d.gd
 res://scene/Character.tscn
 res://assets/castle.tres
+res://scene/main.tscn
