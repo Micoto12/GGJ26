@@ -1,12 +1,10 @@
-[gd_scene load_steps=5 format=4 uid="uid://cgo4m8bl3tifa"]
+[gd_scene load_steps=10 format=4 uid="uid://cgo4m8bl3tifa"]
 
 [ext_resource type="Texture2D" uid="uid://bvxwvxkschdrj" path="res://assets/wood_tile.png" id="1_477ry"]
-<<<<<<< HEAD:scence/map.tscn
-[ext_resource type="PackedScene" uid="uid://dxwnbayduyht2" path="res://scence/Character.tscn" id="2_fbtar"]
-=======
 [ext_resource type="PackedScene" uid="uid://dxwnbayduyht2" path="res://scene/Character.tscn" id="2_fbtar"]
-[ext_resource type="Script" path="res://chest.gd" id="3_uibr4"]
->>>>>>> 6550db1 (Chest):scene/map.tscn
+[ext_resource type="Script" path="res://chest.gd" id="3_v55pv"]
+[ext_resource type="Script" path="res://scripts/Sign.gd" id="4_3g87e"]
+[ext_resource type="Script" path="res://scripts/Npc.gd" id="4_e80ap"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6ccnv"]
 texture = ExtResource("1_477ry")
@@ -17,6 +15,11 @@ texture_region_size = Vector2i(64, 64)
 tile_size = Vector2i(64, 64)
 sources/0 = SubResource("TileSetAtlasSource_6ccnv")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5oluv"]
+size = Vector2(66, 66)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_in5vm"]
+
 [node name="map" type="Node2D"]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
@@ -24,3 +27,39 @@ tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAEAAAAAAAA
 tile_set = SubResource("TileSet_7m4yd")
 
 [node name="Character" parent="." instance=ExtResource("2_fbtar")]
+
+[node name="CHEST1" type="Area2D" parent="."]
+position = Vector2(592, 50)
+script = ExtResource("3_v55pv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CHEST1"]
+shape = SubResource("RectangleShape2D_5oluv")
+
+[node name="Sprite2D" type="Sprite2D" parent="CHEST1"]
+position = Vector2(-1.90735e-06, -1.90735e-06)
+scale = Vector2(66, 66)
+texture = SubResource("CanvasTexture_in5vm")
+
+[node name="NPC" type="Area2D" parent="."]
+position = Vector2(604, 216)
+script = ExtResource("4_e80ap")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NPC"]
+shape = SubResource("RectangleShape2D_5oluv")
+
+[node name="Sprite2D" type="Sprite2D" parent="NPC"]
+position = Vector2(-1.90735e-06, -1.90735e-06)
+scale = Vector2(66, 66)
+texture = SubResource("CanvasTexture_in5vm")
+
+[node name="Table" type="Area2D" parent="."]
+position = Vector2(606, 392)
+script = ExtResource("4_3g87e")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Table"]
+shape = SubResource("RectangleShape2D_5oluv")
+
+[node name="Sprite2D" type="Sprite2D" parent="Table"]
+position = Vector2(-1.90735e-06, -1.90735e-06)
+scale = Vector2(66, 66)
+texture = SubResource("CanvasTexture_in5vm")
