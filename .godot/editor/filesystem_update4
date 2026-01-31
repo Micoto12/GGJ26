@@ -4,3 +4,4 @@ res://chest.gd
 res://Global.gd
 res://scripts/Sign.gd
 res://scripts/Npc.gd
+res://scripts/InventoryHUD.gd

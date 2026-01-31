@@ -52,23 +52,23 @@ func get_chest_contents() -> Dictionary:
 			chest_color = "золотой"
 			item_name = "Волшебный кристалл"
 			item_description = "Сияющий магический кристалл, излучающий мягкий свет. Необходим для ритуалов."
-			# Случайное количество от 1 до 4
+			# Фиксированное количество для тестирования
 			item_count = 4
-			texture_path = Global.get_item_texture(item_name) if Global != null else "res://assets/player.png"
+			texture_path = "res://assets/player.png"  # Используем player.png как текстуру для кристалла
 		
 		"silver":
 			chest_color = "серебряный"
 			item_name = "Ключ"
 			item_description = "Старый железный ключ. Возможно, откроет какую-то дверь."
 			item_count = 1
-			texture_path = Global.get_item_texture(item_name) if Global != null else "res://assets/player.png"
+			texture_path = "res://assets/player.png"
 		
 		"wooden":
 			chest_color = "деревянный"
 			item_name = "Зелье здоровья"
 			item_description = "Красное зелье, восстанавливающее здоровье."
 			item_count = randi_range(1, 3)
-			texture_path = Global.get_item_texture(item_name) if Global != null else "res://assets/tileset.png"
+			texture_path = "res://assets/tileset.png"
 	
 	return {
 		"chest_color": chest_color,
@@ -99,8 +99,7 @@ func show_chest_contents_dialog(item_data: Dictionary):
 				"name": item_data["item_name"],
 				"texture": item_data["texture_path"],
 				"count": item_data["item_count"]
-			},
-			"callback": Callable(self, "_on_take_item").bind(item_data)
+			}
 		},
 		{
 			"text": "Оставить в сундуке",
@@ -110,27 +109,6 @@ func show_chest_contents_dialog(item_data: Dictionary):
 	
 	if Global != null:
 		Global.show_dialog(dialog_text, options)
-
-func _on_take_item(item_data: Dictionary):
-	# Этот колбэк вызывается автоматически через систему item_data в Global.show_dialog
-	# Но мы также можем добавить дополнительную логику здесь
-	print("Предмет взят из сундука: ", item_data["item_name"], " x", item_data["item_count"])
-	
-	# Визуальный эффект взятия
-	if has_node("Sprite2D"):
-		# Сделаем сундук темнее после взятия предмета
-		$Sprite2D.modulate = Color(0.3, 0.3, 0.3)
-	
-	# Показываем сообщение о получении
-	if Global != null:
-		var message = "Получено: {item_name}".format({"item_name": item_data["item_name"]})
-		if item_data["item_count"] > 1:
-			message += " (x{count})".format({"count": item_data["item_count"]})
-		Global.show_message(message, 2.0)
-		
-		# Проверяем, добавлен ли предмет в инвентарь
-		if Global.get_item_count(item_data["item_name"]) > 0:
-			print("Предмет успешно добавлен в инвентарь")
 
 func _on_leave_item():
 	# Игрок решил оставить предмет в сундуке
@@ -155,7 +133,3 @@ func reset_chest():
 # Функция для проверки, открыт ли сундук
 func is_opened() -> bool:
 	return was_opened
-
-# Функция для получения содержимого без открытия (для отладки)
-func peek_contents() -> Dictionary:
-	return get_chest_contents()

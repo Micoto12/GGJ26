@@ -20,6 +20,7 @@ var fullscreen_enabled: bool = true
 
 func _ready():
 	instance = self
+	randomize()  # Инициализация генератора случайных чисел
 	
 	# Настраиваем окно ПЕРВЫМ ДЕЛОМ!
 	setup_window()
@@ -151,6 +152,10 @@ func create_hud_inventory():
 			
 			# Обновляем позицию
 			update_inventory_position.call_deferred()
+			
+			# Инициализируем связь между Global и InventoryHUD
+			if inventory_hud.has_method("set_global_reference"):
+				inventory_hud.set_global_reference(self)
 		else:
 			print("✗ Загруженная сцена не является CanvasLayer")
 			create_simple_hud_inventory()
@@ -388,24 +393,33 @@ static func add_to_hud(item_name: String, texture_path: String = "", count: int 
 	var texture = null
 	if texture_path != "":
 		texture = load(texture_path)
+		if texture == null:
+			print("Не удалось загрузить текстуру: ", texture_path)
+			# Используем дефолтную текстуру
+			texture = load("res://assets/player.png")
 	
 	# Проверяем тип инвентаря
 	if instance.inventory_hud is CanvasLayer:
-		# Ищем HBoxContainer
-		var hbox = null
-		hbox = instance.inventory_hud.find_child("HBoxContainer", true, false)
-		
-		if not hbox:
-			for child in instance.inventory_hud.get_children():
-				if child is HBoxContainer:
-					hbox = child
-					break
-		
-		if hbox:
-			return add_item_to_simple_hud(item_name, texture, count, hbox)
+		# Если у инвентаря есть метод add_item (InventoryHUD сцена)
+		if instance.inventory_hud.has_method("add_item"):
+			print("Добавляем предмет через метод add_item инвентаря: ", item_name, " x", count)
+			return instance.inventory_hud.add_item(item_name, texture, count)
 		else:
-			print("ОШИБКА: HBoxContainer не найден в инвентаре!")
-			return false
+			# Ищем HBoxContainer в простом инвентаре
+			var hbox = null
+			hbox = instance.inventory_hud.find_child("HBoxContainer", true, false)
+			
+			if not hbox:
+				for child in instance.inventory_hud.get_children():
+					if child is HBoxContainer:
+						hbox = child
+						break
+			
+			if hbox:
+				return add_item_to_simple_hud(item_name, texture, count, hbox)
+			else:
+				print("ОШИБКА: HBoxContainer не найден в инвентаре!")
+				return false
 	else:
 		print("Неизвестный тип инвентаря:", instance.inventory_hud.get_class())
 		return false
@@ -469,7 +483,7 @@ func get_item_texture(item_name: String) -> String:
 		"Карта сокровищ":
 			return "res://assets/wood_tile.png"
 		"Волшебный кристалл":
-			return "res://assets/player.png"
+			return "res://assets/player.png"  # Или создайте отдельную текстуру для кристалла
 		_:
 			return ""
 
