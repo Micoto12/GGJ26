@@ -7,3 +7,11 @@ res://scene/castle.tscn
 res://scripts/main_menu.gd
 res://scripts/Npc.gd
 res://Audio/music.gd
+res://scene/Character.tscn
+res://scene/Npc1.tscn
+res://scripts/Npc1.gd
+res://scene/Npc2.tscn
+res://scripts/Npc2.gd
+res://scene/INTRO.tscn
+res://scripts/intro_script.gd
+res://scripts/INTRO_script.tscn

@@ -1,8 +1,7 @@
-[gd_scene load_steps=26 format=3 uid="uid://dxwnbayduyht2"]
+[gd_scene load_steps=25 format=3 uid="uid://s8awp1qrows3"]
 
 [ext_resource type="Script" path="res://scripts/character_body_2d.gd" id="1_er6b0"]
 [ext_resource type="Texture2D" uid="uid://bmprxb3wfbmxd" path="res://assets/GG.png" id="2_jkaod"]
-[ext_resource type="Script" path="res://scripts/Cammove.gd" id="3_8i5xl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u483r"]
 size = Vector2(107.143, 29.4551)
@@ -207,7 +206,7 @@ texture_filter = 1
 position = Vector2(2.50001, -10)
 scale = Vector2(2.80706, 2.70614)
 sprite_frames = SubResource("SpriteFrames_ev7u7")
-animation = &"run_front"
+animation = &"run_back"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(218, 229)
@@ -215,6 +214,3 @@ zoom = Vector2(3, 3)
 process_callback = 0
 position_smoothing_enabled = true
 drag_bottom_margin = 0.15
-script = ExtResource("3_8i5xl")
-target = NodePath("../CharacterBody2D")
-deadzone_size = Vector2(400, 200)

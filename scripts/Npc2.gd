@@ -1,0 +1,507 @@
+extends CharacterBody2D
+
+# Сигналы
+signal target_reached()
+signal movement_started()
+signal movement_stopped()
+
+# Экспортируемые переменные
+@export var npc_name: String = "Страж"
+@export var dialog_state: int = 0
+@export var move_speed: float = 100.0
+@export var approach_distance: float = 30.0
+
+# Публичные переменные (доступны извне)
+var target_position: Vector2 = Vector2.ZERO
+var should_approach: bool = false
+var is_moving: bool = false
+var is_at_target: bool = false
+
+# Приватные переменные
+var player_in_range: bool = false
+var current_player = null
+var dialogue_started: bool = false
+
+@onready var interaction_area = $InteractionArea
+@onready var sprite = $AnimatedSprite2D  # ИЛИ $Sprite2D, в зависимости от вашей структуры
+
+func _ready():
+	# Проверяем, есть ли спрайт
+	if not sprite:
+		sprite = $Sprite2D
+	
+	# Подключаем сигналы к InteractionArea
+	if interaction_area:
+		interaction_area.body_entered.connect(_on_interaction_area_body_entered)
+		interaction_area.body_exited.connect(_on_interaction_area_body_exited)
+		print(npc_name + ": готов к работе")
+	else:
+		print("ОШИБКА: InteractionArea не найден!")
+	
+	# Если target_position не задана, используем текущую позицию
+	if target_position == Vector2.ZERO:
+		target_position = global_position
+		
+	print("NPC ", npc_name, " инициализирован. Позиция: ", global_position)
+
+func _physics_process(delta):
+	# Движение к цели
+	if should_approach and not is_at_target:
+		move_to_target()
+	
+	# Проверяем взаимодействие с игроком
+	if player_in_range and Input.is_action_just_pressed("interact"):
+		talk_to_npc()
+
+func move_to_target():
+	var direction = (target_position - global_position).normalized()
+	var distance_to_target = global_position.distance_to(target_position)
+	
+	if distance_to_target > approach_distance:
+		if not is_moving:
+			is_moving = true
+			movement_started.emit()
+			print(npc_name + ": начинаю движение")
+		
+		velocity = direction * move_speed
+		move_and_slide()
+		
+		# Поворачиваем спрайт в направлении движения
+		if sprite:
+			if direction.x > 0:
+				sprite.flip_h = false
+			elif direction.x < 0:
+				sprite.flip_h = true
+	else:
+		if is_moving:
+			is_moving = false
+			is_at_target = true
+			velocity = Vector2.ZERO
+			movement_stopped.emit()
+			target_reached.emit()
+			print(npc_name + ": достиг цели")
+			
+			# Автоматически начинаем диалог
+			if not dialogue_started:
+				start_auto_dialogue()
+
+func start_auto_dialogue():
+	"""Начать диалог автоматически при достижении цели"""
+	dialogue_started = true
+	print(npc_name + ": достиг цели, начинаю диалог")
+	
+	# Ждем немного перед началом диалога
+	var timer = get_tree().create_timer(0.5)
+	await timer.timeout
+	
+	talk_to_npc()
+
+func start_approach():
+	"""Начать приближение к цели"""
+	if not should_approach:
+		should_approach = true
+		is_at_target = false
+		dialogue_started = false
+		print(npc_name + ": начинаю движение к цели")
+
+func stop_approach():
+	"""Остановить приближение"""
+	should_approach = false
+	is_moving = false
+	velocity = Vector2.ZERO
+	print(npc_name + ": останавливаюсь")
+
+# === ФУНКЦИИ ДЛЯ УПРАВЛЕНИЯ ИЗВНЕ ===
+func set_target_position(pos: Vector2):
+	"""Установить новую целевую позицию"""
+	target_position = pos
+	is_at_target = false
+	dialogue_started = false
+	print(npc_name + ": новая цель установлена - ", pos)
+
+func set_approach_state(approach: bool):
+	"""Включить/выключить режим приближения"""
+	if approach:
+		start_approach()
+	else:
+		stop_approach()
+func reset_dialogue():
+		"""Сбросить диалог для нового взаимодействия"""
+		dialogue_started = false
+		if Global != null:
+			Global.hide_interaction_prompt()
+
+	# === СИГНАЛЫ ВЗАИМОДЕЙСТВИЯ ===
+func _on_interaction_area_body_entered(body):
+		if body.is_in_group("player"):
+			player_in_range = true
+			current_player = body
+			print(npc_name + ": игрок рядом")
+			
+			# Если NPC не двигается к цели, показываем подсказку
+			if not should_approach and not is_moving:
+				if Global != null:
+					Global.show_interaction_prompt("Нажмите E чтобы поговорить")
+
+func _on_interaction_area_body_exited(body):
+		if body.is_in_group("player"):
+			player_in_range = false
+			current_player = null
+			print(npc_name + ": игрок ушел")
+			
+			# Скрываем подсказку
+			if Global != null:
+				Global.hide_interaction_prompt()
+
+	# === ОСНОВНАЯ ФУНКЦИЯ ДИАЛОГА ===
+func talk_to_npc():
+		# Если есть Global объект
+		if Global != null:
+			# Показываем диалог в зависимости от состояния
+			match dialog_state:
+				0:
+					show_first_dialog()
+				1:
+					show_quest_dialog()
+				2:
+					show_completion_dialog()
+		else:
+			# Если нет Global, просто выводим в консоль
+			match dialog_state:
+				0:
+					print(npc_name + ": Привет, путник! Я страж этих земель.")
+				1:
+					print(npc_name + ": Ты уже нашел волшебные кристаллы?")
+				2:
+					print(npc_name + ": Спасибо за помощь!")
+
+	# === ФУНКЦИИ ДИАЛОГОВ ===
+func show_first_dialog():
+		var dialog_text = npc_name + ": Привет, путник! Я страж этих земель.\n\nВижу, ты ищешь приключений? У меня есть для тебя задание."
+		
+		var options = [
+			{
+				"text": "Какое задание?",
+				"callback": Callable(self, "show_quest_explanation"),
+				"keep_open": true
+			},
+			{
+				"text": "Я просто прохожу мимо",
+				"callback": Callable(self, "_on_decline_quest")
+			},
+			{
+				"text": "У меня есть вопросы",
+				"callback": Callable(self, "show_questions_menu"),
+				"keep_open": true
+			}
+		]
+		
+		if Global != null:
+			Global.show_dialog(dialog_text, options)
+
+func show_quest_explanation():
+		var dialog_text = npc_name + ": Мне нужны 3 волшебных кристалла для древнего ритуала защиты замка.\n\nТы найдешь их в сундуках по всему замку. Как найдешь - принеси мне."
+		
+		var options = [
+			{
+				"text": "Хорошо, я займусь поисками",
+				"callback": Callable(self, "_on_accept_quest_final")
+			},
+			{
+				"text": "А где именно искать?",
+				"callback": Callable(self, "show_search_hints"),
+				"keep_open": true
+			},
+			{
+				"text": "А что за ритуал?",
+				"callback": Callable(self, "show_ritual_info"),
+				"keep_open": true
+			}
+		]
+		
+		if Global != null:
+			Global.show_dialog(dialog_text, options)
+
+func _on_accept_quest_final():
+		dialog_state = 1
+		var dialog_text = npc_name + ": Отлично! Иди и ищи кристаллы в сундуках. Как только найдешь 3 - возвращайся ко мне."
+		
+		var options = [
+			{
+				"text": "Понял, отправляюсь на поиски",
+				"callback": Callable()
+			}
+		]
+		
+		if Global != null:
+			Global.show_dialog(dialog_text, options)
+			Global.show_message("Задание принято: Найти 3 волшебных кристалла", 2.0)
+
+func show_search_hints():
+		var dialog_text = npc_name + ": Кристаллы спрятаны в сундуках по всему замку.\n\nОсмотри все комнаты, включая подвалы и чердаки. Обычно сундуки находятся в углах или за колоннами."
+		
+		var options = [
+			{
+				"text": "А как выглядят кристаллы?",
+				"callback": Callable(self, "show_crystal_appearance"),
+				"keep_open": true
+			},
+			{
+				"text": "Хорошо, буду искать",
+				"callback": Callable(self, "_on_accept_quest_final")
+			},
+			{
+				"text": "Назад",
+				"callback": Callable(self, "show_quest_explanation"),
+				"keep_open": true
+			}
+		]
+		
+		if Global != null:
+			Global.show_dialog(dialog_text, options)
+
+func show_crystal_appearance():
+		var dialog_text = npc_name + ": Волшебные кристаллы светятся мягким голубым светом.\n\nОни размером с кулак и имеют идеальную геометрическую форму. Их трудно спутать с чем-то другим!"
+		
+		var options = [
+			{
+				"text": "Теперь я знаю, что искать",
+				"callback": Callable(self, "_on_accept_quest_final")
+			},
+			{
+				"text": "Назад к подсказкам",
+				"callback": Callable(self, "show_search_hints"),
+				"keep_open": true
+			}
+		]
+		
+		if Global != null:
+			Global.show_dialog(dialog_text, options)
+
+func show_ritual_info():
+		var dialog_text = npc_name + ": Это древний ритуал защиты замка от темных сил.\n\nКристаллы обладают магической силой, которая усиливает оборонительные заклинания. Без них замок будет уязвим."
+		
+		var options = [
+			{
+				"text": "Теперь я понимаю важность задания",
+				"callback": Callable(self, "_on_accept_quest_final")
+			},
+			{
+				"text": "Назад",
+				"callback": Callable(self, "show_quest_explanation"),
+				"keep_open": true
+			}
+		]
+		
+		if Global != null:
+			Global.show_dialog(dialog_text, options)
+
+func show_questions_menu():
+		var dialog_text = npc_name + ": О чем ты хочешь спросить?"
+		
+		var options = [
+			{
+				"text": "Где найти зелья?",
+				"callback": Callable(self, "show_potions_info"),
+				"keep_open": true
+			},
+			{
+				"text": "Кто правит этими землями?",
+				"callback": Callable(self, "show_king_info"),
+				"keep_open": true
+			},
+			{
+				"text": "Назад",
+				"callback": Callable(self, "show_first_dialog"),
+				"keep_open": true
+			}
+		]
+		
+		if Global != null:
+			Global.show_dialog(dialog_text, options)
+
+func show_potions_info():
+		var dialog_text = npc_name + ": В лесу растут целебные травы, из которых можно приготовить зелья.\n\nТакже иногда торговцы привозят зелья из дальних стран. Но сейчас не время для торговцев."
+		
+		var options = [
+			{
+				"text": "Спасибо за информацию",
+				"callback": Callable(self, "show_questions_menu"),
+				"keep_open": true
+			}
+		]
+		
+		if Global != null:
+			Global.show_dialog(dialog_text, options)
+
+func show_king_info():
+		var dialog_text = npc_name + ": Этими землями правит король Артур, мудрый и справедливый правитель.\n\nОн поручил мне защищать этот участок границы от любых угроз."
+		
+		var options = [
+			{
+				"text": "Слава королю Артуру!",
+				"callback": Callable(self, "show_questions_menu"),
+				"keep_open": true
+			}
+		]
+		
+		if Global != null:
+			Global.show_dialog(dialog_text, options)
+
+func _on_decline_quest():
+		var dialog_text = npc_name + ": Жаль. Если передумаешь - я всегда здесь.\n\nБудь осторожен в своих путешествиях."
+		
+		var options = [
+			{
+				"text": "До свидания",
+				"callback": Callable()
+			}
+		]
+		
+		if Global != null:
+			Global.show_dialog(dialog_text, options)
+
+func show_quest_dialog():
+		var dialog_text = npc_name + ": Ты уже нашел волшебные кристаллы?\n\nМне нужно 3 кристалла для ритуала."
+		
+		var options = [
+			{
+				"text": "Да, вот они",
+				"callback": Callable(self, "_on_complete_quest"),
+				"keep_open": true
+			},
+			{
+				"text": "Еще нет, я все ищу",
+				"callback": Callable(self, "show_encouragement"),
+				"keep_open": true
+			},
+			{
+				"text": "Отменить задание",
+				"callback": Callable(self, "show_cancel_confirmation"),
+				"keep_open": true
+			}
+		]
+		
+		if Global != null:
+			Global.show_dialog(dialog_text, options)
+
+func show_encouragement():
+		var dialog_text = npc_name + ": Не сдавайся! Кристаллы точно где-то в замке.\n\nПроверь все сундуки, которые найдешь. Они могут быть в самых неожиданных местах."
+		
+		var options = [
+			{
+				"text": "Хорошо, продолжу поиски",
+				"callback": Callable()
+			}
+		]
+		
+		if Global != null:
+			Global.show_dialog(dialog_text, options)
+
+func show_cancel_confirmation():
+		var dialog_text = npc_name + ": Ты уверен, что хочешь отменить задание?\n\nБез ритуала защиты замок может оказаться в опасности."
+		
+		var options = [
+			{
+				"text": "Да, отменить",
+				"callback": Callable(self, "_on_cancel_quest")
+			},
+			{
+				"text": "Нет, продолжу поиски",
+				"callback": Callable(self, "show_quest_dialog"),
+				"keep_open": true
+			}
+		]
+		
+		if Global != null:
+			Global.show_dialog(dialog_text, options)
+
+func _on_complete_quest():
+		# Проверяем наличие кристаллов в инвентаре
+		if Global != null:
+			var crystal_count = Global.get_item_count("Волшебный кристалл")
+			
+			if crystal_count >= 3:
+				# Удаляем кристаллы из инвентаря
+				var success = Global.remove_item_from_inventory("Волшебный кристалл", 3)
+				if success:
+					dialog_state = 2
+					var dialog_text = npc_name + ": Отлично! Ты нашел все 3 кристалла!\n\nСпасибо за помощь. Вот твоя награда - 50 золотых монет.\n\nТеперь я могу провести ритуал защиты."
+					
+					var options = [
+						{
+							"text": "Спасибо! Удачи с ритуалом",
+							"callback": Callable(self, "_on_reward_given")
+						}
+					]
+					
+					Global.show_dialog(dialog_text, options)
+				else:
+					var dialog_text = npc_name + ": Произошла ошибка при передаче кристаллов.\n\nПопробуй еще раз."
+					
+					var options = [
+						{
+							"text": "Понятно",
+							"callback": Callable()
+						}
+					]
+					
+					Global.show_dialog(dialog_text, options)
+			else:
+				var dialog_text = npc_name + ": У тебя недостаточно кристаллов! Нужно 3, а у тебя всего " + str(crystal_count) + ".\n\nПродолжай поиски в сундуках по замку."
+				
+				var options = [
+					{
+						"text": "Хорошо, продолжу поиски",
+						"callback": Callable()
+					},
+					{
+						"text": "Где еще можно поискать?",
+						"callback": Callable(self, "show_encouragement"),
+						"keep_open": true
+					}
+				]
+				
+				Global.show_dialog(dialog_text, options)
+
+func _on_reward_given():
+		# Добавляем награду
+		if Global != null:
+			Global.add_to_hud("Золотые монеты", "res://assets/wood_tile.png", 50)
+			Global.show_message("Получено: 50 золотых монет", 2.0)
+
+func _on_cancel_quest():
+		dialog_state = 0
+		var dialog_text = npc_name + ": Очень жаль. Если передумаешь - возвращайся.\n\nБез кристаллов ритуал не провести."
+		
+		var options = [
+			{
+				"text": "До свидания",
+				"callback": Callable()
+			}
+		]
+		
+		if Global != null:
+			Global.show_dialog(dialog_text, options)
+
+func show_completion_dialog():
+		var dialog_text = npc_name + ": Спасибо еще раз за помощь!\n\nРитуал защиты успешно проведен. Если понадобится еще помощь - обращайся."
+		
+		var options = [
+			{
+				"text": "Хорошо, удачи!",
+				"callback": Callable()
+			}
+		]
+		
+		if Global != null:
+			Global.show_dialog(dialog_text, options)
+
+func get_npc_info() -> Dictionary:
+		"""Получить информацию об NPC"""
+		return {
+			"name": npc_name,
+			"state": dialog_state,
+			"position": global_position,
+			"target": target_position
+		}

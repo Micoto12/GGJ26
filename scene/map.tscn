@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=4 uid="uid://cdq64ddc0x5df"]
 
 [ext_resource type="Texture2D" uid="uid://bvxwvxkschdrj" path="res://assets/Tails/wood_tile.png" id="1_jgtfi"]
-[ext_resource type="PackedScene" path="res://scene/Character.tscn" id="2_fbtar"]
+[ext_resource type="PackedScene" uid="uid://s8awp1qrows3" path="res://scene/Character.tscn" id="2_fbtar"]
 [ext_resource type="PackedScene" uid="uid://dhospd8nsbi1w" path="res://assets/Walls/Wall1.tscn" id="3_nkjsp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6ccnv"]
