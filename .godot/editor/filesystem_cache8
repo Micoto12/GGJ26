@@ -1,6 +1,6 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1769881531
-door.gd::GDScript::-1::1769880855::0::1::::<>Area2D<>::
+::res://::1769883923
+door.gd::GDScript::-1::1769882349::0::1::::<>Area2D<>::
 icon.svg::CompressedTexture2D::2475109168858101138::1769803246::1769854112::1::::<><>::
 Inventory.gd::GDScript::-1::1769854045::0::1::::Inventory<>CanvasLayer<>::
 README.md::TextFile::-1::1769866910::0::1::::<><>::
@@ -30,22 +30,28 @@ wood_tile.png::CompressedTexture2D::3909241588253907951::1769804568::1769854111:
 123.jpg::CompressedTexture2D::8048059338073464036::1769807179::1769853629::1::::<><>::
 ::res://assets/Walls/::1769851566
 Wall1.tscn::PackedScene::7680605147044096690::1769851566::0::1::::<><>::
-::res://scene/::1769881403
-Character.tscn::PackedScene::8819812909282523037::1769880870::0::1::::<><>::res://scripts/character_body_2d.gd<>uid://bmprxb3wfbmxd::::res://assets/GG.png<>res://scripts/Cammove.gd
+::res://scene/::1769882470
+Character.tscn::PackedScene::8819812909282523037::1769882470::0::1::::<><>::res://scripts/character_body_2d.gd<>uid://bmprxb3wfbmxd::::res://assets/GG.png<>res://scripts/Cammove.gd
 Dialog.tscn::PackedScene::8640859618073696270::1769854045::0::1::::<><>::
 InventoryHUD.tscn::PackedScene::2376401828110281848::1769854045::0::1::::<><>::res://scripts/Inventory.gd
 Main.tscn::PackedScene::785708937016321570::1769875867::0::1::::<><>::
 main_menu.tscn::PackedScene::-1::1769866910::0::1::::<><>::
 map.tscn::PackedScene::5224659675441641922::1769854045::0::1::::<><>::uid://bvxwvxkschdrj::::res://assets/Tails/wood_tile.png<>uid://dxwnbayduyht2::::res://scene/Character.tscn<>uid://dhospd8nsbi1w::::res://assets/Walls/Wall1.tscn
 Settings.tscn::PackedScene::-1::1769866910::0::1::::<><>::
-::res://scene/Castle/::1769881058
-door2.tscn::PackedScene::3409133301457717320::1769880870::0::1::::<><>::res://door.gd
+::res://scene/Castle/::1769884281
+door2.tscn::PackedScene::3409133301457717320::1769882470::0::1::::<><>::res://door.gd
 door.gd::GDScript::-1::1769875120::0::1::::<>Area2D<>::
 Door.tscn::PackedScene::3432926477130406832::1769875123::0::1::::<><>::res://scene/Castle/door.gd
-::res://scene/Castle/room 1/::1769881531
-hall.tscn::PackedScene::6792066985799746923::1769881369::0::1::::<><>::uid://dmk3lc0h2a1nt::::res://assets/castle.tres
-room3.tscn::PackedScene::6715210837452161740::1769881326::0::1::::<><>::uid://dmk3lc0h2a1nt::::res://assets/castle.tres
-startroom.tscn::PackedScene::2857200004604189822::1769881299::0::1::::<><>::uid://dmk3lc0h2a1nt::::res://assets/castle.tres<>uid://dxwnbayduyht2::::res://scene/Character.tscn<>res://scripts/Npc.gd<>res://scripts/chest.gd<>res://scripts/Sign.gd
+::res://scene/Castle/floor2/::1769884281
+::res://scene/Castle/room 1/::1769884270
+Banket_1.tscn::PackedScene::828353784186535448::1769883601::0::1::::<><>::uid://dmk3lc0h2a1nt::::res://assets/castle.tres
+hall.tscn::PackedScene::6792066985799746923::1769882470::0::1::::<><>::uid://dmk3lc0h2a1nt::::res://assets/castle.tres
+kitchen.tscn::PackedScene::7259242051597607217::1769884270::0::1::::<><>::uid://dmk3lc0h2a1nt::::res://assets/castle.tres<>uid://botn6sckr1fie::::res://scene/Castle/door2.tscn<>uid://dxwnbayduyht2::::res://scene/Character.tscn
+koridor.tscn::PackedScene::4529524934248452793::1769884170::0::1::::<><>::uid://dmk3lc0h2a1nt::::res://assets/castle.tres<>uid://botn6sckr1fie::::res://scene/Castle/door2.tscn<>uid://dxwnbayduyht2::::res://scene/Character.tscn
+Podsobka.tscn::PackedScene::3086292539385578183::1769884001::0::1::::<><>::uid://dmk3lc0h2a1nt::::res://assets/castle.tres<>uid://botn6sckr1fie::::res://scene/Castle/door2.tscn<>uid://dxwnbayduyht2::::res://scene/Character.tscn
+sklad.tscn::PackedScene::6715210837452161740::1769883896::0::1::::<><>::uid://dmk3lc0h2a1nt::::res://assets/castle.tres<>uid://botn6sckr1fie::::res://scene/Castle/door2.tscn<>uid://dxwnbayduyht2::::res://scene/Character.tscn
+startroom.tscn::PackedScene::2857200004604189822::1769882470::0::1::::<><>::uid://dmk3lc0h2a1nt::::res://assets/castle.tres<>uid://dxwnbayduyht2::::res://scene/Character.tscn<>res://scripts/Npc.gd<>res://scripts/chest.gd<>res://scripts/Sign.gd
+Zapas.tscn::PackedScene::8287431119990400238::1769883651::0::1::::<><>::uid://dmk3lc0h2a1nt::::res://assets/castle.tres<>uid://botn6sckr1fie::::res://scene/Castle/door2.tscn<>uid://dxwnbayduyht2::::res://scene/Character.tscn
 ::res://scripts/::1769866910
 Cammove.gd::GDScript::-1::1769804568::0::1::::<>Camera2D<>::
 character_body_2d.gd::GDScript::-1::1769865748::0::1::::<>CharacterBody2D<>::

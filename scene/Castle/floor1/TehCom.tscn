@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=4 uid="uid://ul42u4by4k4b"]
+
+[ext_resource type="TileSet" uid="uid://dmk3lc0h2a1nt" path="res://assets/castle.tres" id="1_aq77k"]
+[ext_resource type="PackedScene" uid="uid://botn6sckr1fie" path="res://scene/Castle/door2.tscn" id="2_wviiu"]
+[ext_resource type="PackedScene" uid="uid://dxwnbayduyht2" path="res://scene/Character.tscn" id="3_7rref"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="TileMapLayer3" type="TileMapLayer" parent="."]
+
+[node name="floor" type="TileMapLayer" parent="TileMapLayer3"]
+use_parent_material = true
+tile_map_data = PackedByteArray("AAASAPf/AAABAAAAAAATAPf/AAABAAAAAAAUAPf/AAABAAAAAAASAPj/AAABAAAAAAATAPj/AAABAAAAAAAUAPj/AAABAAAAAAAUAPn/AAABAAAAAAATAPn/AAABAAAAAAASAPn/AAABAAAAAAASAPb/AAABAAAAAAATAPb/AAABAAAAAAAUAPb/AAABAAAAAAASAPX/AAAAAAAAAAATAPX/AAADAAAAAAAUAPX/AAAAAAAAAAATAPT/AAAIAAAAAAA=")
+tile_set = ExtResource("1_aq77k")
+
+[node name="Wall" type="TileMapLayer" parent="TileMapLayer3"]
+z_index = 1
+use_parent_material = true
+tile_map_data = PackedByteArray("AAARAPf/AAAFAAEAAAAVAPf/AAALAAAAAAAVAPj/AAALAAAAAAAVAPn/AAALAAAAAAAVAPb/AAALAAAAAAAVAPX/AAALAAAAAAARAPj/AAAJAAAAAAARAPn/AAAJAAAAAAARAPb/AAAJAAAAAAARAPX/AAAJAAAAAAATAPr/AAALAAEAAAAUAPr/AAAKAAAAAAASAPr/AAAKAAAAAAAVAPr/AAAHAAAAAAARAPr/AAAGAAAAAAASAPT/AAAIAAAAAAAUAPT/AAAIAAAAAAAVAPT/AAAEAAAAAAARAPT/AAAFAAAAAAA=")
+tile_set = ExtResource("1_aq77k")
+
+[node name="door" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("2_wviiu")]
+position = Vector2(225, 68)
+linked_door = NodePath("../door2")
+
+[node name="door2" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("2_wviiu")]
+position = Vector2(287, -136)
+linked_door = NodePath("../door")
+
+[node name="Character" parent="." instance=ExtResource("3_7rref")]
+position = Vector2(35, -140)
