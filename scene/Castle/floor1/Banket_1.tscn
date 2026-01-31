@@ -5,6 +5,7 @@
 [node name="Node2D2" type="Node2D"]
 
 [node name="TileMapLayer3" type="TileMapLayer" parent="."]
+tile_set = ExtResource("1_obaw4")
 
 [node name="floor" type="TileMapLayer" parent="TileMapLayer3"]
 use_parent_material = true
