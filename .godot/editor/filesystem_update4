@@ -1,8 +1,3 @@
-res://scene/InventoryHUD.tscn
-res://scene/map.tscn
-res://chest.gd
-res://Global.gd
-res://scripts/Sign.gd
-res://scripts/Npc.gd
-res://scripts/InventoryHUD.gd
 res://scene/castle.tscn
+res://scripts/character_body_2d.gd
+res://scene/Character.tscn

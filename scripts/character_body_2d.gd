@@ -30,3 +30,8 @@ func _physics_process(delta):
 
 	if dir.x != 0:
 		sprite.flip_h = dir.x < 0
+
+func _input(event):
+	# Открываем инвентарь по I
+	if event.is_action_pressed("inventory"):
+		Global.toggle_inventory()
