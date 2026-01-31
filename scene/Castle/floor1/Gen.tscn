@@ -28,4 +28,4 @@ position = Vector2(287, -136)
 linked_door = NodePath("../door")
 
 [node name="Character" parent="." instance=ExtResource("3_12rst")]
-position = Vector2(-942, -1036)
+position = Vector2(-1269, -1035)

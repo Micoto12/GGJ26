@@ -22,3 +22,6 @@ res://scene/Castle/floor1/koridor.tscn
 res://scene/Castle/floor1/kitchen.tscn
 res://scene/Castle/floor1/Zapas.tscn
 res://scene/main_menu.tscn
+res://scene/Castle/floor1/door3.tscn
+res://scene/Castle/floor1/door_3.gd
+res://scene/door3.tscn
