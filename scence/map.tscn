@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=4 uid="uid://cgo4m8bl3tifa"]
+[gd_scene load_steps=6 format=4 uid="uid://cgo4m8bl3tifa"]
 
-[ext_resource type="Texture2D" uid="uid://bvxwvxkschdrj" path="res://assets/wood_tile.png" id="1_477ry"]
+[ext_resource type="Texture2D" uid="uid://bvxwvxkschdrj" path="res://assets/Tails/wood_tile.png" id="1_477ry"]
 [ext_resource type="PackedScene" uid="uid://dxwnbayduyht2" path="res://scence/Character.tscn" id="2_fbtar"]
+[ext_resource type="PackedScene" uid="uid://dhospd8nsbi1w" path="res://assets/Walls/Wall1.tscn" id="3_4hvh6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6ccnv"]
 texture = ExtResource("1_477ry")
@@ -19,3 +20,5 @@ tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAEAAAAAAAA
 tile_set = SubResource("TileSet_7m4yd")
 
 [node name="Character" parent="." instance=ExtResource("2_fbtar")]
+
+[node name="Wall1" parent="." instance=ExtResource("3_4hvh6")]

@@ -45,6 +45,7 @@ animations = [{
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 position = Vector2(217, 231)
+scale = Vector2(0.4, 0.4)
 script = ExtResource("1_er6b0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
@@ -57,7 +58,7 @@ texture_filter = 1
 position = Vector2(1, 2)
 scale = Vector2(6, 6.076)
 sprite_frames = SubResource("SpriteFrames_ev7u7")
-animation = &"idle"
+animation = &"run"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(218, 229)

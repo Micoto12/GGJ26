@@ -1,3 +1,10 @@
+res://scence/Entyty/Enemy.tscn
+res://scence/VL_Main.tscn
 res://scence/map.tscn
-res://scence/Character.tscn
+res://scence/Entyty/VL_Char.tscn
+res://scripts/Enemy.gd
+res://scence/level.gd
 res://scripts/character_body_2d.gd
+res://scence/castle.tscn
+res://assets/Walls/Wall1.tscn
+res://scence/Character.tscn
