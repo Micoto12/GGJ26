@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://scripts/Cammove.gd" id="3_8i5xl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u483r"]
-size = Vector2(102, 143.121)
+size = Vector2(102, 11.0457)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vft1h"]
 atlas = ExtResource("2_2dobs")
@@ -49,7 +49,7 @@ scale = Vector2(0.4, 0.4)
 script = ExtResource("1_er6b0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
-position = Vector2(1.99998, -1.52588e-05)
+position = Vector2(2, 41.25)
 scale = Vector2(0.7, 0.679)
 shape = SubResource("RectangleShape2D_u483r")
 
