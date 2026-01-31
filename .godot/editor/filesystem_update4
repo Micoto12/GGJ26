@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 res://scene/InventoryHUD.tscn
 res://scene/map.tscn
 res://chest.gd
@@ -5,3 +6,15 @@ res://Global.gd
 res://scripts/Sign.gd
 res://scripts/Npc.gd
 res://scripts/InventoryHUD.gd
+=======
+res://scence/Entyty/Enemy.tscn
+res://scence/VL_Main.tscn
+res://scence/map.tscn
+res://scence/Entyty/VL_Char.tscn
+res://scripts/Enemy.gd
+res://scence/level.gd
+res://scripts/character_body_2d.gd
+res://scence/castle.tscn
+res://assets/Walls/Wall1.tscn
+res://scence/Character.tscn
+>>>>>>> 7548b008d425a14a5212f45e218503f642285fbe

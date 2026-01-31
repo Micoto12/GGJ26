@@ -1,3 +1,4 @@
+<<<<<<< HEAD:scene/map.tscn
 [gd_scene load_steps=10 format=4 uid="uid://cgo4m8bl3tifa"]
 
 [ext_resource type="Texture2D" uid="uid://bvxwvxkschdrj" path="res://assets/wood_tile.png" id="1_477ry"]
@@ -5,6 +6,13 @@
 [ext_resource type="Script" path="res://chest.gd" id="3_v55pv"]
 [ext_resource type="Script" path="res://scripts/Sign.gd" id="4_3g87e"]
 [ext_resource type="Script" path="res://scripts/Npc.gd" id="4_e80ap"]
+=======
+[gd_scene load_steps=6 format=4 uid="uid://cgo4m8bl3tifa"]
+
+[ext_resource type="Texture2D" uid="uid://bvxwvxkschdrj" path="res://assets/Tails/wood_tile.png" id="1_477ry"]
+[ext_resource type="PackedScene" uid="uid://dxwnbayduyht2" path="res://scence/Character.tscn" id="2_fbtar"]
+[ext_resource type="PackedScene" uid="uid://dhospd8nsbi1w" path="res://assets/Walls/Wall1.tscn" id="3_4hvh6"]
+>>>>>>> 7548b008d425a14a5212f45e218503f642285fbe:scence/map.tscn
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6ccnv"]
 texture = ExtResource("1_477ry")
@@ -28,6 +36,7 @@ tile_set = SubResource("TileSet_7m4yd")
 
 [node name="Character" parent="." instance=ExtResource("2_fbtar")]
 
+<<<<<<< HEAD:scene/map.tscn
 [node name="CHEST1" type="Area2D" parent="."]
 position = Vector2(592, 50)
 script = ExtResource("3_v55pv")
@@ -63,3 +72,6 @@ shape = SubResource("RectangleShape2D_5oluv")
 position = Vector2(-1.90735e-06, -1.90735e-06)
 scale = Vector2(66, 66)
 texture = SubResource("CanvasTexture_in5vm")
+=======
+[node name="Wall1" parent="." instance=ExtResource("3_4hvh6")]
+>>>>>>> 7548b008d425a14a5212f45e218503f642285fbe:scence/map.tscn
