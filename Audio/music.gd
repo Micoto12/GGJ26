@@ -19,6 +19,7 @@ var current_track: String = ""
 func _ready():
 	# Применяем текущую громкость к AudioServer при старте
 	_update_volumes()
+	
 
 
 # ----------------------------

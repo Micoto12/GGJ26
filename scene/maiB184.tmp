@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://c6fc48swjj3u4"]
+[gd_scene load_steps=9 format=3 uid="uid://c6fc48swjj3u4"]
 
-[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_30yky"]
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_0d0bq"]
+[ext_resource type="Texture2D" path="res://assets/wall_g_tile.png" id="2_e6s11"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_87rbu"]
 
@@ -65,28 +66,25 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 48.0
-offset_top = 28.0
-offset_right = 48.0
-offset_bottom = 28.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_30yky")
+script = ExtResource("1_0d0bq")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_e6s11")
+expand_mode = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -10.0
-offset_top = -9.0
-offset_right = -10.0
-offset_bottom = -9.0
 grow_horizontal = 2
 grow_vertical = 2
 

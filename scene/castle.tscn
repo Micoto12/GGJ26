@@ -1,0 +1,67 @@
+[gd_scene load_steps=11 format=3 uid="uid://do0xr41ikqohw"]
+
+[ext_resource type="Script" path="res://scripts/castle.gd" id="1_lpyy8"]
+[ext_resource type="PackedScene" uid="uid://dkbo053gybrq7" path="res://scene/Character.tscn" id="3_61lxm"]
+[ext_resource type="Script" path="res://scripts/chest.gd" id="3_aj2qg"]
+[ext_resource type="Script" path="res://scripts/Npc.gd" id="4_1s2mj"]
+[ext_resource type="TileSet" uid="uid://qjw2nwgj3wbh" path="res://assets/castle.tres" id="4_8k8hi"]
+[ext_resource type="Script" path="res://scripts/Sign.gd" id="5_df2yp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bs3pw"]
+size = Vector2(66, 66)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_a2u7t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_juh0l"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_vtakq"]
+
+[node name="Castle" type="Node2D"]
+script = ExtResource("1_lpyy8")
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("4_8k8hi")
+format = 2
+layer_0/name = "floor"
+layer_0/tile_data = PackedInt32Array(65536, 65536, 0, 131073, 65536, 0, 131074, 65536, 0, 196611, 65536, 0, 196612, 65536, 0, 262150, 65536, 0, 262151, 65536, 0, 196615, 65536, 0, 131079, 65536, 0, 65543, 65536, 0, 65542, 65536, 0, 65541, 65536, 0, 65537, 65536, 0, 65538, 65536, 0, 65539, 65536, 0, 65540, 65536, 0, 131077, 65536, 0, 131078, 65536, 0, 196614, 65536, 0, 131076, 65536, 0, 131075, 65536, 0, 196610, 65536, 0, 196609, 65536, 0, 131072, 65536, 0, 196608, 65536, 0, 262144, 65536, 0, 262145, 65536, 0, 262146, 65536, 0, 262148, 65536, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 196608, 0, 4, 0, 1, 5, 0, 0, 6, 0, 0, 7, 0, 0, 196613, 65536, 0, 262147, 65536, 0, 262149, 65536, 0, 262152, 65536, 0, 262153, 65536, 0, 196617, 65536, 0, 196616, 65536, 0, 131080, 65536, 0, 65544, 65536, 0, 65545, 65536, 0, 9, 0, 0, 8, 0, 0, 131081, 65536, 0)
+layer_1/name = "Wall"
+layer_1/z_index = 1
+layer_1/tile_data = PackedInt32Array(-65529, 524288, 0, -65528, 524288, 0, -65530, 524288, 0, -65531, 524288, 0, -65532, 524288, 0, -65533, 524288, 0, -65534, 524288, 0, -65536, 524288, 0, -65535, 524288, 0, 327683, 655360, 0, 327687, 655360, 0, 327686, 655360, 0, 327685, 655360, 0, 327684, 655360, 0, 327681, 655360, 0, 327680, 655360, 0, 327682, 655360, 0, 327679, 589824, 0, 262143, 589824, 0, 196607, 589824, 0, 131071, 589824, 0, 65535, 589824, 0, -1, 327680, 0, 393215, 393216, 0, 327688, 655360, 0, 262154, 720896, 0, 131082, 720896, 0, 65546, 720896, 0, 10, 720896, 0, -65526, 262144, 0, 327690, 458752, 0, 196618, 720896, 0, 327689, 655360, 0, -65527, 524288, 0)
+
+[node name="Character" parent="." instance=ExtResource("3_61lxm")]
+position = Vector2(24, -40)
+
+[node name="Area2D2" type="Area2D" parent="."]
+position = Vector2(586, 247)
+script = ExtResource("4_1s2mj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+shape = SubResource("RectangleShape2D_bs3pw")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D2"]
+position = Vector2(-1.90735e-06, -1.90735e-06)
+scale = Vector2(66, 66)
+texture = SubResource("CanvasTexture_a2u7t")
+
+[node name="Area2D3" type="Area2D" parent="."]
+position = Vector2(583, 148)
+script = ExtResource("5_df2yp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D3"]
+shape = SubResource("RectangleShape2D_bs3pw")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D3"]
+position = Vector2(-1.90735e-06, -1.90735e-06)
+scale = Vector2(66, 66)
+texture = SubResource("CanvasTexture_a2u7t")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(541, 74)
+script = ExtResource("3_aj2qg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_juh0l")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+scale = Vector2(20, 20)
+texture = SubResource("CanvasTexture_vtakq")
