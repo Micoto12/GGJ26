@@ -65,6 +65,7 @@ position = Vector2(218, 229)
 zoom = Vector2(2, 2)
 process_callback = 0
 position_smoothing_enabled = true
+drag_bottom_margin = 0.15
 script = ExtResource("3_8i5xl")
 target = NodePath("../CharacterBody2D")
 deadzone_size = Vector2(400, 200)
