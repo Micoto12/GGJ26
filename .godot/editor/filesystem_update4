@@ -1,0 +1,8 @@
+res://scene/castle.tscn
+res://assets/castle.tres
+res://scene/Character.tscn
+res://scene/Main.tscn
+res://scene/Castle/Door.tscn
+res://scene/Castle/door.gd
+res://door.gd
+res://scene/Castle/door2.tscn
