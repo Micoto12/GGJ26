@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bo562d61xu6qe"]
+
+[ext_resource type="Script" path="res://scene/Castle/door.gd" id="1_fffkq"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6dqyf"]
+
+[node name="Door" type="Node2D" groups=["door"]]
+
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("1_fffkq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CapsuleShape2D_6dqyf")
