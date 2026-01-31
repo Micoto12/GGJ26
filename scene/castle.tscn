@@ -66,9 +66,9 @@ scale = Vector2(20, 20)
 texture = SubResource("CanvasTexture_vtakq")
 
 [node name="door" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("6_jbj1t")]
-position = Vector2(223, 38)
+position = Vector2(224, 58)
 linked_door = NodePath("../door2")
 
 [node name="door2" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("6_jbj1t")]
-position = Vector2(284, -146)
+position = Vector2(274, -134)
 linked_door = NodePath("../door")

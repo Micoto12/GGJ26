@@ -1,8 +1,9 @@
 extends Area2D
 
-@export var linked_door: Node2D  # сюда в инспекторе перетащить DoorB/ DoorA
+@export var linked_door: Node2D
 
-var player_in_area: CharacterBody2D = null  # хранит игрока, когда он рядом
+var player_in_area: CharacterBody2D = null
+var can_teleport: bool = true  # флаг, который блокирует мгновенный повтор
 
 func _ready():
 	body_entered.connect(_on_body_entered)
@@ -19,7 +20,14 @@ func _on_body_exited(body: Node):
 		print("Игрок ушёл от двери:", body.name)
 
 func _process(delta):
-	if player_in_area and Input.is_key_pressed(KEY_E):
+	if player_in_area and can_teleport and Input.is_key_pressed(KEY_E):
 		if linked_door:
+			# телепортируем игрока
 			player_in_area.global_position = linked_door.global_position + Vector2(32, 0)
 			print("Телепортирован к двери:", linked_door.name)
+			
+			# блокируем телепорт на 0.3 секунды
+			can_teleport = false
+			# запускаем таймер через await
+			await get_tree().create_timer(0.3).timeout
+			can_teleport = true
