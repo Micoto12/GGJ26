@@ -5,3 +5,5 @@ res://assets/castle.tres
 res://scene/map.tscn
 res://scene/castle.tscn
 res://scripts/main_menu.gd
+res://scripts/Npc.gd
+res://Audio/music.gd
