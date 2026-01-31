@@ -12,10 +12,13 @@ config_version=5
 
 config/name="GGJ_Mask"
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d7389a77ca0c03beeb1fe12811a0c86d6801e60a
 run/main_scene="res://scene/castle.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
-<<<<<<<HEADrun/main_scene="res://node_2d.tscn"
+<<<<<<<HEADrun/main_scene="res://scene/castle.tscn"
 
 [autoload]
 
@@ -34,6 +37,10 @@ Music="*res://audio/Music.tscn"
 >>>>>>> d1c9d18e51db28b1e8f627694d89f10d3ca43c4a
 Global="*res://scripts/Global.gd"
 
+[global_group]
+
+player=""
+
 [input]
 
 interact={
@@ -46,3 +53,12 @@ inventory={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":73,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
+tp={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":69,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
