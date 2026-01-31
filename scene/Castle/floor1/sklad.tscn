@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=4 uid="uid://c2w5sn3yu6o73"]
 
-[ext_resource type="TileSet" uid="uid://dmk3lc0h2a1nt" path="res://assets/castle.tres" id="1_o8cp6"]
-[ext_resource type="PackedScene" uid="uid://botn6sckr1fie" path="res://scene/Castle/door2.tscn" id="2_7li6p"]
-[ext_resource type="PackedScene" uid="uid://dxwnbayduyht2" path="res://scene/Character.tscn" id="3_af03l"]
+[ext_resource type="TileSet" uid="uid://dmk3lc0h2a1nt" path="res://assets/castle.tres" id="1_7tcf1"]
+[ext_resource type="PackedScene" uid="uid://botn6sckr1fie" path="res://scene/Castle/door2.tscn" id="2_cauv8"]
+[ext_resource type="PackedScene" uid="uid://dxwnbayduyht2" path="res://scene/Character.tscn" id="3_jlp5o"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -11,21 +11,21 @@
 [node name="floor" type="TileMapLayer" parent="TileMapLayer3"]
 use_parent_material = true
 tile_map_data = PackedByteArray("AAD4//7/AAADAAAAAAD3//7/AAAAAAAAAAD5//7/AAAAAAAAAAD6//z/AAAAAAAAAAD6//3/AAABAAAAAAD6//7/AAABAAAAAAD7//7/AAABAAAAAAD8//7/AAABAAAAAAD8//3/AAABAAAAAAD7//3/AAABAAAAAAD7//z/AAAAAAAAAAD8//z/AAAAAAAAAAD9//z/AAAAAAAAAAD9//3/AAABAAAAAAD9//7/AAABAAAAAAD9////AAABAAAAAAD8////AAABAAAAAAD7////AAABAAAAAAD6////AAABAAAAAAD5////AAABAAAAAAD4////AAABAAAAAAD3////AAABAAAAAAD4/wAAAAABAAAAAAD5/wAAAAABAAAAAAD6/wAAAAABAAAAAAD7/wAAAAABAAAAAAD8/wAAAAABAAAAAAD9/wAAAAABAAAAAAD3/wAAAAABAAAAAAA=")
-tile_set = ExtResource("1_o8cp6")
+tile_set = ExtResource("1_7tcf1")
 
 [node name="Wall" type="TileMapLayer" parent="TileMapLayer3"]
 z_index = 1
 use_parent_material = true
 tile_map_data = PackedByteArray("AAD+//3/AAAEAAEAAAD+//7/AAALAAAAAAD+////AAALAAAAAAD+/wAAAAALAAAAAAD+//z/AAALAAAAAAD+//v/AAAEAAAAAAD+/wEAAAAHAAAAAAD9/wEAAAAKAAAAAAD8/wEAAAAKAAAAAAD7/wEAAAAKAAAAAAD6/wEAAAAKAAAAAAD5/wEAAAAKAAAAAAD4/wEAAAAKAAAAAAD3/wEAAAAKAAAAAAD9//v/AAAIAAAAAAD8//v/AAAIAAAAAAD7//v/AAAIAAAAAAD6//v/AAAIAAAAAAD5//v/AAAFAAAAAAD5//z/AAAJAAAAAAD2////AAAFAAEAAAD2//3/AAAFAAAAAAD2//7/AAAJAAAAAAD2/wAAAAAJAAAAAAD2/wEAAAAGAAAAAAD3//3/AAAIAAAAAAD4//3/AAAIAAAAAAD5//3/AAAIAAEAAAA=")
-tile_set = ExtResource("1_o8cp6")
+tile_set = ExtResource("1_7tcf1")
 
-[node name="door" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("2_7li6p")]
+[node name="door" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("2_cauv8")]
 position = Vector2(225, 68)
 linked_door = NodePath("../door2")
 
-[node name="door2" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("2_7li6p")]
+[node name="door2" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("2_cauv8")]
 position = Vector2(287, -136)
 linked_door = NodePath("../door")
 
-[node name="Character" parent="." instance=ExtResource("3_af03l")]
+[node name="Character" parent="." instance=ExtResource("3_jlp5o")]
 position = Vector2(-364, -396)

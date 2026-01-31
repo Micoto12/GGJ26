@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=4 uid="uid://dboowklqedokn"]
 
-[ext_resource type="TileSet" uid="uid://dmk3lc0h2a1nt" path="res://assets/castle.tres" id="1_77dxh"]
-[ext_resource type="PackedScene" uid="uid://botn6sckr1fie" path="res://scene/Castle/door2.tscn" id="2_feubw"]
-[ext_resource type="PackedScene" uid="uid://dxwnbayduyht2" path="res://scene/Character.tscn" id="3_awufi"]
+[ext_resource type="TileSet" uid="uid://dmk3lc0h2a1nt" path="res://assets/castle.tres" id="1_r1m2i"]
+[ext_resource type="PackedScene" uid="uid://botn6sckr1fie" path="res://scene/Castle/door2.tscn" id="2_jhluk"]
+[ext_resource type="PackedScene" uid="uid://dxwnbayduyht2" path="res://scene/Character.tscn" id="3_iy4he"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -11,21 +11,21 @@
 [node name="floor" type="TileMapLayer" parent="TileMapLayer3"]
 use_parent_material = true
 tile_map_data = PackedByteArray("AAAIAPj/AAAFAAEAAAAJAPn/AAABAAAAAAAKAPn/AAABAAAAAAALAPn/AAABAAAAAAAMAPn/AAABAAAAAAAMAPj/AAABAAAAAAALAPj/AAABAAAAAAAKAPj/AAABAAAAAAAJAPj/AAABAAAAAAAJAPf/AAABAAAAAAAKAPf/AAABAAAAAAALAPf/AAABAAAAAAAMAPf/AAABAAAAAAAJAPb/AAAAAAAAAAAKAPb/AAAAAAAAAAALAPb/AAAAAAAAAAAMAPb/AAAAAAAAAAANAPb/AAAAAAAAAAANAPn/AAABAAAAAAANAPj/AAABAAAAAAANAPf/AAABAAAAAAAOAPb/AAAAAAAAAAAPAPb/AAAAAAAAAAAOAPf/AAABAAAAAAAPAPf/AAABAAAAAAAPAPj/AAABAAAAAAAPAPn/AAABAAAAAAAOAPn/AAABAAAAAAAOAPj/AAABAAAAAAA=")
-tile_set = ExtResource("1_77dxh")
+tile_set = ExtResource("1_r1m2i")
 
 [node name="Wall" type="TileMapLayer" parent="TileMapLayer3"]
 z_index = 1
 use_parent_material = true
 tile_map_data = PackedByteArray("AAAIAPn/AAAJAAAAAAAIAPf/AAAJAAAAAAAIAPr/AAAGAAAAAAAJAPr/AAAKAAAAAAAKAPr/AAAKAAAAAAALAPr/AAAKAAAAAAAMAPr/AAAKAAAAAAAQAPf/AAAEAAEAAAANAPr/AAAKAAAAAAAOAPr/AAAKAAAAAAAPAPr/AAAKAAAAAAAQAPr/AAAHAAAAAAAQAPn/AAALAAAAAAAQAPj/AAALAAAAAAAQAPb/AAALAAAAAAAQAPX/AAAEAAAAAAAPAPX/AAAIAAAAAAAOAPX/AAAIAAAAAAANAPX/AAAIAAAAAAAMAPX/AAAIAAAAAAALAPX/AAAIAAAAAAAKAPX/AAAIAAAAAAAJAPX/AAAIAAAAAAAIAPX/AAAFAAAAAAAIAPb/AAAJAAAAAAA=")
-tile_set = ExtResource("1_77dxh")
+tile_set = ExtResource("1_r1m2i")
 
-[node name="door" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("2_feubw")]
+[node name="door" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("2_jhluk")]
 position = Vector2(225, 68)
 linked_door = NodePath("../door2")
 
-[node name="door2" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("2_feubw")]
+[node name="door2" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("2_jhluk")]
 position = Vector2(287, -136)
 linked_door = NodePath("../door")
 
-[node name="Character" parent="." instance=ExtResource("3_awufi")]
+[node name="Character" parent="." instance=ExtResource("3_iy4he")]
 position = Vector2(35, -140)

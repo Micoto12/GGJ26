@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=4 uid="uid://b5seu4wsitmfh"]
 
-[ext_resource type="TileSet" uid="uid://dmk3lc0h2a1nt" path="res://assets/castle.tres" id="1_robox"]
-[ext_resource type="PackedScene" uid="uid://botn6sckr1fie" path="res://scene/Castle/door2.tscn" id="2_d4vfy"]
-[ext_resource type="PackedScene" uid="uid://dxwnbayduyht2" path="res://scene/Character.tscn" id="3_nbnwh"]
+[ext_resource type="TileSet" uid="uid://dmk3lc0h2a1nt" path="res://assets/castle.tres" id="1_7v6go"]
+[ext_resource type="PackedScene" uid="uid://botn6sckr1fie" path="res://scene/Castle/door2.tscn" id="2_q8v3t"]
+[ext_resource type="PackedScene" uid="uid://dxwnbayduyht2" path="res://scene/Character.tscn" id="3_thggr"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -11,21 +11,21 @@
 [node name="floor" type="TileMapLayer" parent="TileMapLayer3"]
 use_parent_material = true
 tile_map_data = PackedByteArray("AAD4//L/AAADAAAAAAD3//L/AAAAAAAAAAD5//L/AAAAAAAAAAD3//P/AAABAAAAAAD4//P/AAABAAAAAAD5//P/AAABAAAAAAD5//T/AAABAAAAAAD4//T/AAABAAAAAAD3//T/AAABAAAAAAA=")
-tile_set = ExtResource("1_robox")
+tile_set = ExtResource("1_7v6go")
 
 [node name="Wall" type="TileMapLayer" parent="TileMapLayer3"]
 z_index = 1
 use_parent_material = true
 tile_map_data = PackedByteArray("AAD4//X/AAALAAEAAAD5//X/AAAKAAAAAAD3//X/AAAKAAAAAAD6//X/AAAHAAAAAAD2//X/AAAGAAAAAAD6//T/AAALAAAAAAD6//P/AAALAAAAAAD6//L/AAALAAAAAAD2//T/AAAJAAAAAAD2//L/AAAJAAAAAAD2//P/AAAFAAEAAAD2//H/AAAFAAAAAAD6//H/AAAEAAAAAAD3//H/AAAIAAAAAAD5//H/AAAIAAAAAAD4//H/AAAIAAAAAAA=")
-tile_set = ExtResource("1_robox")
+tile_set = ExtResource("1_7v6go")
 
-[node name="door" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("2_d4vfy")]
+[node name="door" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("2_q8v3t")]
 position = Vector2(225, 68)
 linked_door = NodePath("../door2")
 
-[node name="door2" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("2_d4vfy")]
+[node name="door2" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("2_q8v3t")]
 position = Vector2(287, -136)
 linked_door = NodePath("../door")
 
-[node name="Character" parent="." instance=ExtResource("3_nbnwh")]
+[node name="Character" parent="." instance=ExtResource("3_thggr")]
 position = Vector2(35, -140)
