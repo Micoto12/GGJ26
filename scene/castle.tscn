@@ -1,7 +1,10 @@
-[gd_scene load_steps=6 format=4 uid="uid://cjtqvyw0820f8"]
+[gd_scene load_steps=13 format=4 uid="uid://bgybwwvmugb3s"]
 
 [ext_resource type="Texture2D" uid="uid://di1gq0b35q5tx" path="res://assets/Tails/tile_map_0.1.png" id="1_66o8n"]
-[ext_resource type="PackedScene" uid="uid://dxwnbayduyht2" path="res://scence/Character.tscn" id="3_61lxm"]
+[ext_resource type="PackedScene" uid="uid://dxwnbayduyht2" path="res://scene/Character.tscn" id="3_61lxm"]
+[ext_resource type="Script" path="res://scripts/chest.gd" id="3_aj2qg"]
+[ext_resource type="Script" path="res://scripts/Npc.gd" id="4_1s2mj"]
+[ext_resource type="Script" path="res://scripts/Sign.gd" id="5_df2yp"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_2teir"]
 
@@ -82,6 +85,15 @@ physics_layer_0/collision_layer = 1
 physics_layer_0/physics_material = SubResource("PhysicsMaterial_2teir")
 sources/0 = SubResource("TileSetAtlasSource_fabkw")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_juh0l"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_vtakq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bs3pw"]
+size = Vector2(66, 66)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_a2u7t"]
+
 [node name="Castle" type="Node2D"]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
@@ -90,3 +102,38 @@ tile_set = SubResource("TileSet_mao2d")
 
 [node name="Character" parent="." instance=ExtResource("3_61lxm")]
 position = Vector2(24, -40)
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(541, 74)
+script = ExtResource("3_aj2qg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_juh0l")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+scale = Vector2(20, 20)
+texture = SubResource("CanvasTexture_vtakq")
+
+[node name="Area2D2" type="Area2D" parent="."]
+position = Vector2(586, 247)
+script = ExtResource("4_1s2mj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+shape = SubResource("RectangleShape2D_bs3pw")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D2"]
+position = Vector2(-1.90735e-06, -1.90735e-06)
+scale = Vector2(66, 66)
+texture = SubResource("CanvasTexture_a2u7t")
+
+[node name="Area2D3" type="Area2D" parent="."]
+position = Vector2(583, 148)
+script = ExtResource("5_df2yp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D3"]
+shape = SubResource("RectangleShape2D_bs3pw")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D3"]
+position = Vector2(-1.90735e-06, -1.90735e-06)
+scale = Vector2(66, 66)
+texture = SubResource("CanvasTexture_a2u7t")
