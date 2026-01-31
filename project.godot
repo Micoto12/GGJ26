@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="GGJ_Mask"
+<<<<<<< HEAD
 run/main_scene="res://scene/castle.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
@@ -18,6 +19,19 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+=======
+run/main_scene="res://scene/main_menu.tscn"
+config/features=PackedStringArray("4.3", "Forward Plus")
+config/icon="res://icon.svg"
+
+[audio]
+
+buses/default_bus_layout="res://Audio/default_bus_layout.tres"
+
+[autoload]
+
+Music="*res://audio/Music.tscn"
+>>>>>>> d1c9d18e51db28b1e8f627694d89f10d3ca43c4a
 Global="*res://scripts/Global.gd"
 
 [input]

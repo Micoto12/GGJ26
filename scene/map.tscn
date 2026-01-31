@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 [gd_scene load_steps=6 format=4 uid="uid://cgo4m8bl3tifa"]
+=======
+[gd_scene load_steps=6 format=4 uid="uid://tfwvil7qvqni"]
+>>>>>>> d1c9d18e51db28b1e8f627694d89f10d3ca43c4a
 
 [ext_resource type="Texture2D" uid="uid://bvxwvxkschdrj" path="res://assets/Tails/wood_tile.png" id="1_jgtfi"]
 [ext_resource type="PackedScene" uid="uid://dxwnbayduyht2" path="res://scene/Character.tscn" id="2_fbtar"]
