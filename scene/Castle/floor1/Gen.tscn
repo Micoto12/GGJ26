@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=4 uid="uid://byoapowe72um5"]
+[gd_scene load_steps=3 format=4 uid="uid://byoapowe72um5"]
 
 [ext_resource type="TileSet" uid="uid://dmk3lc0h2a1nt" path="res://assets/castle.tres" id="1_rsp8w"]
-[ext_resource type="PackedScene" uid="uid://botn6sckr1fie" path="res://scene/Castle/door2.tscn" id="2_nnuae"]
 [ext_resource type="PackedScene" uid="uid://dxwnbayduyht2" path="res://scene/Character.tscn" id="3_12rst"]
 
 [node name="Node2D" type="Node2D"]
@@ -18,14 +17,6 @@ z_index = 1
 use_parent_material = true
 tile_map_data = PackedByteArray("AADv//H/AAAIAAAAAADw//H/AAAIAAAAAADx//H/AAAIAAAAAADy//H/AAAIAAAAAADz//H/AAAIAAAAAAD0//H/AAAIAAAAAAD1//H/AAAEAAAAAAD1//T/AAALAAAAAAD1//L/AAALAAAAAAD1//P/AAAEAAEAAADu//H/AAAFAAAAAADu//L/AAAJAAAAAADu//P/AAAJAAAAAADu//T/AAAJAAAAAADu//X/AAAGAAAAAADv//X/AAAKAAAAAADw//X/AAAKAAAAAADx//X/AAAKAAAAAADy//X/AAAKAAAAAADz//X/AAAKAAAAAAD0//X/AAAKAAAAAAD1//X/AAAHAAAAAAA=")
 tile_set = ExtResource("1_rsp8w")
-
-[node name="door" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("2_nnuae")]
-position = Vector2(225, 68)
-linked_door = NodePath("../door2")
-
-[node name="door2" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("2_nnuae")]
-position = Vector2(287, -136)
-linked_door = NodePath("../door")
 
 [node name="Character" parent="." instance=ExtResource("3_12rst")]
 position = Vector2(-1269, -1035)

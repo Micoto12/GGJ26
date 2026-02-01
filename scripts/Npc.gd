@@ -1,8 +1,8 @@
 extends Area2D
 
 var player_in_range = false
-var npc_name = "Страж"
-var dialog_state = 0  # 0 - первая встреча, 1 - после получения задания, 2 - после выполнения
+var npc_name = "Аркадий"
+var dialog_state = 0  # 0 - первая встреча, 1 - задание дано, 2 - задание выполнено
 
 func _ready():
 	body_entered.connect(_on_body_entered)
@@ -37,82 +37,102 @@ func talk_to_npc():
 			show_completion_dialog()
 
 func show_first_dialog():
-	var dialog_text = npc_name + ": Привет, путник! Я страж этих земель.\n\nВижу, ты ищешь приключений? У меня есть для тебя задание."
+	var dialog_text = "АРКАДИЙ: Добро пожаловать на мой вечер, дорогой гость! Я надеюсь, вам нравится атмосфера.\n\nВыберите тему для разговора:"
 	
 	var options = [
 		{
-			"text": "Какое задание?",
-			"callback": Callable(self, "show_quest_explanation"),
-			"keep_open": true  # Диалог не закроется
+			"text": "«Великолепный вечер, Аркадий. Поздравляю.»",
+			"callback": Callable(self, "_on_option_1"),
+			"keep_open": true
 		},
 		{
-			"text": "Я просто прохожу мимо",
+			"text": "«Ваша коллекция производит сильное впечатление.»",
+			"callback": Callable(self, "_on_option_2"),
+			"keep_open": true
+		},
+		{
+			"text": "«Вы выглядите немного уставшим от хлопот.»",
+			"callback": Callable(self, "_on_option_3"),
+			"keep_open": true
+		}
+	]
+	
+	if Global != null:
+		Global.show_dialog(dialog_text, options)
+
+func _on_option_1():
+	var dialog_text = "АРКАДИЙ: «Благодарю, дорогой гость! Да, мы старались. В наше время важно не просто собрать людей, а... поразить их. Оставить след.»\n\nКажется, Аркадий довольно самодоволен и не нуждается в вашей помощи."
+	
+	var options = [
+		{
+			"text": "Продолжить осмотр коллекции",
+			"callback": Callable()
+		}
+	]
+	
+	if Global != null:
+		Global.show_dialog(dialog_text, options)
+
+func _on_option_2():
+	var dialog_text = "АРКАДИЙ: «Именно так! Искусство должно будоражить кровь, а не просто радовать глаз. Я ищу только самые... острые впечатления.»\n\nАркадий с энтузиазмом рассказывает о своих приобретениях, но не просит о помощи."
+	
+	var options = [
+		{
+			"text": "Уйти, оставив его наслаждаться искусством",
+			"callback": Callable()
+		}
+	]
+	
+	if Global != null:
+		Global.show_dialog(dialog_text, options)
+
+func _on_option_3():
+	var dialog_text = "АРКАДИЙ (вздрогнув, затем натянуто улыбаясь): «Усталым? О, нет-нет! Просто... предвкушение. Волнение перед показом главных лотов. Горло, знаете ли, даже пересохло от нервов.\n\nНо ничего, скоро шампанское сделает своё дело.\n\nНе могли бы вы сходить до моей домработницы и взять его? Она обычно находится в подсобном помещении.»"
+	
+	var options = [
+		{
+			"text": "Конечно, я помогу",
+			"callback": Callable(self, "_on_accept_champagne_quest")
+		},
+		{
+			"text": "Извините, я занят",
 			"callback": Callable(self, "_on_decline_quest")
-		},
-		{
-			"text": "У меня есть вопросы",
-			"callback": Callable(self, "show_questions_menu"),
-			"keep_open": true
 		}
 	]
 	
 	if Global != null:
 		Global.show_dialog(dialog_text, options)
 
-func show_quest_explanation():
-	var dialog_text = npc_name + ": Мне нужны 3 волшебных кристалла для древнего ритуала защиты замка.\n\nТы найдешь их в сундуках по всему замку. Как найдешь - принеси мне."
-	
-	var options = [
-		{
-			"text": "Хорошо, я займусь поисками",
-			"callback": Callable(self, "_on_accept_quest_final")
-		},
-		{
-			"text": "А где именно искать?",
-			"callback": Callable(self, "show_search_hints"),
-			"keep_open": true
-		},
-		{
-			"text": "А что за ритуал?",
-			"callback": Callable(self, "show_ritual_info"),
-			"keep_open": true
-		}
-	]
-	
-	if Global != null:
-		Global.show_dialog(dialog_text, options)
-
-func _on_accept_quest_final():
+func _on_accept_champagne_quest():
 	dialog_state = 1
-	var dialog_text = npc_name + ": Отлично! Иди и ищи кристаллы в сундуках. Как только найдешь 3 - возвращайся ко мне."
+	var dialog_text = "АРКАДИЙ: «Прекрасно! Домработница Мария должна быть в подсобке за главным залом. Скажите ей, что шампанское для меня. И побыстрее, пожалуйста!»"
 	
 	var options = [
 		{
-			"text": "Понял, отправляюсь на поиски",
-			"callback": Callable()
-		}
-	]
-	
-	if Global != null:
-		Global.show_dialog(dialog_text, options)
-		Global.show_message("Задание принято: Найти 3 волшебных кристалла", 2.0)
-
-func show_search_hints():
-	var dialog_text = npc_name + ": Кристаллы спрятаны в сундуках по всему замку.\n\nОсмотри все комнаты, включая подвалы и чердаки. Обычно сундуки находятся в углах или за колоннами."
-	
-	var options = [
-		{
-			"text": "А как выглядят кристаллы?",
-			"callback": Callable(self, "show_crystal_appearance"),
-			"keep_open": true
+			"text": "Хорошо, я отправляюсь",
+			"callback": Callable(self, "_on_quest_accepted")
 		},
 		{
-			"text": "Хорошо, буду искать",
-			"callback": Callable(self, "_on_accept_quest_final")
+			"text": "А как выглядит Мария?",
+			"callback": Callable(self, "_on_ask_about_maid"),
+			"keep_open": true
+		}
+	]
+	
+	if Global != null:
+		Global.show_dialog(dialog_text, options)
+
+func _on_ask_about_maid():
+	var dialog_text = "АРКАДИЙ: «Мария? О, она в темно-синем униформе с белым фартуком. Невысокая, с седыми волосами, собранными в пучок. Вы точно ее узнаете - она всегда что-то протирает или поправляет.»"
+	
+	var options = [
+		{
+			"text": "Понял, иду искать Марию",
+			"callback": Callable(self, "_on_quest_accepted")
 		},
 		{
-			"text": "Назад",
-			"callback": Callable(self, "show_quest_explanation"),
+			"text": "А где именно подсобка?",
+			"callback": Callable(self, "_on_ask_about_location"),
 			"keep_open": true
 		}
 	]
@@ -120,156 +140,71 @@ func show_search_hints():
 	if Global != null:
 		Global.show_dialog(dialog_text, options)
 
-func show_crystal_appearance():
-	var dialog_text = npc_name + ": Волшебные кристаллы светятся мягким голубым светом.\n\nОни размером с кулак и имеют идеальную геометрическую форму. Их трудно спутать с чем-то другим!"
+func _on_ask_about_location():
+	var dialog_text = "АРКАДИЙ: «Пройдите через главный зал, затем налево в коридор. Там будет дверь с табличкой 'Служебное помещение'. Но не задерживайтесь там - это не для гостей.»"
 	
 	var options = [
 		{
-			"text": "Теперь я знаю, что искать",
-			"callback": Callable(self, "_on_accept_quest_final")
-		},
-		{
-			"text": "Назад к подсказкам",
-			"callback": Callable(self, "show_search_hints"),
-			"keep_open": true
+			"text": "Ясно, отправляюсь",
+			"callback": Callable(self, "_on_quest_accepted")
 		}
 	]
 	
 	if Global != null:
 		Global.show_dialog(dialog_text, options)
 
-func show_ritual_info():
-	var dialog_text = npc_name + ": Это древний ритуал защиты замка от темных сил.\n\nКристаллы обладают магической силой, которая усиливает оборонительные заклинания. Без них замок будет уязвим."
-	
-	var options = [
-		{
-			"text": "Теперь я понимаю важность задания",
-			"callback": Callable(self, "_on_accept_quest_final")
-		},
-		{
-			"text": "Назад",
-			"callback": Callable(self, "show_quest_explanation"),
-			"keep_open": true
-		}
-	]
-	
+func _on_quest_accepted():
 	if Global != null:
-		Global.show_dialog(dialog_text, options)
-
-func show_questions_menu():
-	var dialog_text = npc_name + ": О чем ты хочешь спросить?"
-	
-	var options = [
-		{
-			"text": "Где найти зелья?",
-			"callback": Callable(self, "show_potions_info"),
-			"keep_open": true
-		},
-		{
-			"text": "Кто правит этими землями?",
-			"callback": Callable(self, "show_king_info"),
-			"keep_open": true
-		},
-		{
-			"text": "Назад",
-			"callback": Callable(self, "show_first_dialog"),
-			"keep_open": true
-		}
-	]
-	
-	if Global != null:
-		Global.show_dialog(dialog_text, options)
-
-func show_potions_info():
-	var dialog_text = npc_name + ": В лесу растут целебные травы, из которых можно приготовить зелья.\n\nТакже иногда торговцы привозят зелья из дальних стран. Но сейчас не время для торговцев."
-	
-	var options = [
-		{
-			"text": "Спасибо за информацию",
-			"callback": Callable(self, "show_questions_menu"),
-			"keep_open": true
-		}
-	]
-	
-	if Global != null:
-		Global.show_dialog(dialog_text, options)
-
-func show_king_info():
-	var dialog_text = npc_name + ": Этими землями правит король Артур, мудрый и справедливый правитель.\n\nОн поручил мне защищать этот участок границы от любых угроз."
-	
-	var options = [
-		{
-			"text": "Слава королю Артуру!",
-			"callback": Callable(self, "show_questions_menu"),
-			"keep_open": true
-		}
-	]
-	
-	if Global != null:
-		Global.show_dialog(dialog_text, options)
-
-func _on_decline_quest():
-	var dialog_text = npc_name + ": Жаль. Если передумаешь - я всегда здесь.\n\nБудь осторожен в своих путешествиях."
-	
-	var options = [
-		{
-			"text": "До свидания",
-			"callback": Callable()
-		}
-	]
-	
-	if Global != null:
-		Global.show_dialog(dialog_text, options)
+		Global.show_message("Задание принято: Найти домработницу Марию и взять шампанское для Аркадия", 2.0)
 
 func show_quest_dialog():
-	var dialog_text = npc_name + ": Ты уже нашел волшебные кристаллы?\n\nМне нужно 3 кристалла для ритуала."
+	var dialog_text = "АРКАДИЙ: «Вы уже нашли Марию и шампанское? Мне уже не терпится сделать глоток... Это успокоит нервы перед главным событием.»"
 	
 	var options = [
 		{
-			"text": "Да, вот они",
+			"text": "Да, вот шампанское",
 			"callback": Callable(self, "_on_complete_quest"),
-			"keep_open": true  # Не закрываем, чтобы показать результат
-		},
-		{
-			"text": "Еще нет, я все ищу",
-			"callback": Callable(self, "show_encouragement"),
 			"keep_open": true
 		},
 		{
-			"text": "Отменить задание",
-			"callback": Callable(self, "show_cancel_confirmation"),
+			"text": "Еще нет, все ищу",
+			"callback": Callable(self, "show_search_hints"),
 			"keep_open": true
+		},
+		{
+			"text": "Я передумал помогать",
+			"callback": Callable(self, "_on_cancel_quest")
 		}
 	]
 	
 	if Global != null:
 		Global.show_dialog(dialog_text, options)
 
-func show_encouragement():
-	var dialog_text = npc_name + ": Не сдавайся! Кристаллы точно где-то в замке.\n\nПроверь все сундуки, которые найдешь. Они могут быть в самых неожиданных местах."
+func show_search_hints():
+	var dialog_text = "АРКАДИЙ: «Мария должна быть в подсобке за главным залом. Пройдите через зал, затем налево в коридор. Ищите дверь с табличкой 'Служебное помещение'.»\n\nОн нервно поправляет галстук."
 	
 	var options = [
 		{
 			"text": "Хорошо, продолжу поиски",
 			"callback": Callable()
+		},
+		{
+			"text": "А какое шампанское нужно?",
+			"callback": Callable(self, "_on_ask_about_champagne"),
+			"keep_open": true
 		}
 	]
 	
 	if Global != null:
 		Global.show_dialog(dialog_text, options)
 
-func show_cancel_confirmation():
-	var dialog_text = npc_name + ": Ты уверен, что хочешь отменить задание?\n\nБез ритуала защиты замок может оказаться в опасности."
+func _on_ask_about_champagne():
+	var dialog_text = "АРКАДИЙ: «О, только Moët & Chandon, разумеется! Я заказывал его специально для этого вечера. Мария знает - бутылки с золотой этикеткой.»"
 	
 	var options = [
 		{
-			"text": "Да, отменить",
-			"callback": Callable(self, "_on_cancel_quest")
-		},
-		{
-			"text": "Нет, продолжу поиски",
-			"callback": Callable(self, "show_quest_dialog"),
-			"keep_open": true
+			"text": "Понял, ищу Moët & Chandon",
+			"callback": Callable()
 		}
 	]
 	
@@ -277,47 +212,47 @@ func show_cancel_confirmation():
 		Global.show_dialog(dialog_text, options)
 
 func _on_complete_quest():
-	# Проверяем наличие кристаллов в инвентаре
+	# Проверяем наличие шампанского в инвентаре
 	if Global != null:
-		var crystal_count = Global.get_item_count("Волшебный кристалл")
+		var champagne_count = Global.get_item_count("Шампанское Moët & Chandon")
 		
-		if crystal_count >= 3:
-			# Удаляем кристаллы из инвентаря
-			var success = Global.remove_item_from_inventory("Волшебный кристалл", 3)
+		if champagne_count >= 1:
+			# Удаляем шампанское из инвентаря
+			var success = Global.remove_item_from_inventory("Шампанское Moët & Chandon", 1)
 			if success:
 				dialog_state = 2
-				var dialog_text = npc_name + ": Отлично! Ты нашел все 3 кристалла!\n\nСпасибо за помощь. Вот твоя награда - 50 золотых монет.\n\nТеперь я могу провести ритуал защиты."
+				var dialog_text = "АРКАДИЙ (с облегчением): «Ах, наконец-то! Спасибо вам, дорогой друг!»\n\nОн быстро откупоривает бутылку и наливает себе бокал.\n\n«Вы спасли ситуацию! В качестве благодарности - вот вам небольшой подарок. И, конечно, вы останетесь на показ главных лотов!»"
 				
 				var options = [
 					{
-						"text": "Спасибо! Удачи с ритуалом",
+						"text": "Спасибо, с удовольствием останусь",
 						"callback": Callable(self, "_on_reward_given")
 					}
 				]
 				
 				Global.show_dialog(dialog_text, options)
 			else:
-				var dialog_text = npc_name + ": Произошла ошибка при передаче кристаллов.\n\nПопробуй еще раз."
+				var dialog_text = "АРКАДИЙ: «Что-то пошло не так... У вас же есть шампанское? Проверьте еще раз.»"
 				
 				var options = [
 					{
-						"text": "Понятно",
+						"text": "Проверить инвентарь",
 						"callback": Callable()
 					}
 				]
 				
 				Global.show_dialog(dialog_text, options)
 		else:
-			var dialog_text = npc_name + ": У тебя недостаточно кристаллов! Нужно 3, а у тебя всего " + str(crystal_count) + ".\n\nПродолжай поиски в сундуках по замку."
+			var dialog_text = "АРКАДИЙ: «Но... где же шампанское? Вы же сказали, что нашли его! Может, Мария дала вам что-то другое? Это должна быть бутылка Moët & Chandon с золотой этикеткой.»\n\nОн выглядит разочарованным."
 			
 			var options = [
 				{
-					"text": "Хорошо, продолжу поиски",
+					"text": "Извините, я еще поищу",
 					"callback": Callable()
 				},
 				{
-					"text": "Где еще можно поискать?",
-					"callback": Callable(self, "show_encouragement"),
+					"text": "Расскажите еще раз про Марию",
+					"callback": Callable(self, "_on_ask_about_maid"),
 					"keep_open": true
 				}
 			]
@@ -327,16 +262,30 @@ func _on_complete_quest():
 func _on_reward_given():
 	# Добавляем награду
 	if Global != null:
-		Global.add_to_hud("Золотые монеты", "res://assets/wood_tile.png", 50)
-		Global.show_message("Получено: 50 золотых монет", 2.0)
+		# Даем награду за выполнение задания
+		Global.add_to_hud("Дорогой сигарный набор", "res://assets/player.png", 1)  # Можно заменить на свою текстуру
+		Global.show_message("Получено: Дорогой сигарный набор от Аркадия", 2.0)
 
-func _on_cancel_quest():
-	dialog_state = 0
-	var dialog_text = npc_name + ": Очень жаль. Если передумаешь - возвращайся.\n\nБез кристаллов ритуал не провести."
+func _on_decline_quest():
+	var dialog_text = "АРКАДИЙ: «Жаль... очень жаль. Что ж, придется обойтись без шампанского или найти кого-то другого.»\n\nОн отворачивается, явно раздосадованный."
 	
 	var options = [
 		{
-			"text": "До свидания",
+			"text": "Уйти",
+			"callback": Callable()
+		}
+	]
+	
+	if Global != null:
+		Global.show_dialog(dialog_text, options)
+
+func _on_cancel_quest():
+	dialog_state = 0
+	var dialog_text = "АРКАДИЙ: «Как невежливо с вашей стороны! Сначала предлагаете помощь, а затем отказываетесь. Пожалуйста, не мешайте мне готовиться к вечеру.»\n\nОн явно обижен."
+	
+	var options = [
+		{
+			"text": "Извините",
 			"callback": Callable()
 		}
 	]
@@ -345,11 +294,11 @@ func _on_cancel_quest():
 		Global.show_dialog(dialog_text, options)
 
 func show_completion_dialog():
-	var dialog_text = npc_name + ": Спасибо еще раз за помощь!\n\nРитуал защиты успешно проведен. Если понадобится еще помощь - обращайся."
+	var dialog_text = "АРКАДИЙ (с бокалом в руке): «Ах, это вы! Спасибо еще раз за помощь. Шампанское великолепно, как и всегда. Наслаждайтесь вечером! Сколько начнется показ главных лотов.»\n\nОн кажется гораздо более расслабленным."
 	
 	var options = [
 		{
-			"text": "Хорошо, удачи!",
+			"text": "Приятного вечера!",
 			"callback": Callable()
 		}
 	]

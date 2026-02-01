@@ -1,7 +1,7 @@
 extends Area2D
 
 var player_in_range = false
-var sign_text = "Добро пожаловать в нашу деревню!\n\nЗдесь вы можете отдохнуть и пополнить запасы."
+var sign_text = "Добро пожаловать в наш особняк!\n\nЗдесь вы можете отдохнуть и увидеть самые впечатляющие произведения искусства."
 
 func _ready():
 	body_entered.connect(_on_body_entered)
@@ -10,7 +10,7 @@ func _ready():
 func _on_body_entered(body):
 	if body is CharacterBody2D:
 		player_in_range = true
-		Global.show_interaction_prompt("Нажмите E чтобы прочитать")
+		Global.show_interaction_prompt("Нажмите E чтобы поговорить")
 
 func _on_body_exited(body):
 	if body is CharacterBody2D:
@@ -27,7 +27,7 @@ func read_sign():
 		[
 			{
 				"text": "Понятно",
-				"callback": func(): Global.show_message("Вы прочитали табличку", 1.0)
+				"callback": func(): Global.show_message("Вы уже поговорили с этим персонажем", 1.0)
 			}
 		]
 	)

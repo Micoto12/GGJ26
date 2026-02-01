@@ -1,18 +1,18 @@
+# maid.gd - для домработницы Марии
 extends Area2D
 
 var player_in_range = false
-var was_opened = false
-var chest_type = "golden"  # golden, silver, wooden
+var has_champagne = true  # У Марии есть шампанское
 
 func _ready():
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
 
 func _on_body_entered(body):
-	if body is CharacterBody2D and not was_opened:
+	if body is CharacterBody2D and has_champagne:
 		player_in_range = true
 		if Global != null:
-			Global.show_interaction_prompt("Нажмите E чтобы открыть")
+			Global.show_interaction_prompt("Нажмите E чтобы поговорить с Марией")
 
 func _on_body_exited(body):
 	if body is CharacterBody2D:
@@ -21,115 +21,51 @@ func _on_body_exited(body):
 			Global.hide_interaction_prompt()
 
 func _process(delta):
-	if player_in_range and Input.is_action_just_pressed("interact") and not was_opened:
-		open_chest()
+	if player_in_range and Input.is_action_just_pressed("interact") and has_champagne:
+		talk_to_maid()
 
-func open_chest():
-	was_opened = true
-	
-	# Визуальный эффект
-	if has_node("Sprite2D"):
-		$Sprite2D.modulate = Color(0.5, 0.5, 0.5)
-	
-	if Global != null:
-		Global.hide_interaction_prompt()
-	
-	# Определяем содержимое сундука
-	var item_data = get_chest_contents()
-	
-	# Показываем диалог с предметом
-	show_chest_contents_dialog(item_data)
-
-func get_chest_contents() -> Dictionary:
-	var item_name = ""
-	var item_description = ""
-	var item_count = 1
-	var texture_path = ""
-	var chest_color = ""
-	
-	match chest_type:
-		"golden":
-			chest_color = "золотой"
-			item_name = "Волшебный кристалл"
-			item_description = "Сияющий магический кристалл, излучающий мягкий свет. Необходим для ритуалов."
-			# Фиксированное количество для тестирования
-			item_count = 4
-			texture_path = "res://assets/player.png"  # Используем player.png как текстуру для кристалла
-		
-		"silver":
-			chest_color = "серебряный"
-			item_name = "Ключ"
-			item_description = "Старый железный ключ. Возможно, откроет какую-то дверь."
-			item_count = 1
-			texture_path = "res://assets/player.png"
-		
-		"wooden":
-			chest_color = "деревянный"
-			item_name = "Зелье здоровья"
-			item_description = "Красное зелье, восстанавливающее здоровье."
-			item_count = randi_range(1, 3)
-			texture_path = "res://assets/tileset.png"
-	
-	return {
-		"chest_color": chest_color,
-		"item_name": item_name,
-		"item_description": item_description,
-		"item_count": item_count,
-		"texture_path": texture_path
-	}
-
-func show_chest_contents_dialog(item_data: Dictionary):
-	var dialog_text = "Вы открыли {chest_color} сундук.\n\nВнутри вы видите: {item_name}.\n\n{item_description}".format({
-		"chest_color": item_data["chest_color"],
-		"item_name": item_data["item_name"],
-		"item_description": item_data["item_description"]
-	})
-	
-	# Добавляем информацию о количестве, если больше 1
-	if item_data["item_count"] > 1:
-		dialog_text += "\n\nКоличество: {count} шт.".format({"count": item_data["item_count"]})
+func talk_to_maid():
+	var dialog_text = "МАРИЯ: «О, вы от Аркадия? Он уже забеспокоился? Да, вот шампанское. Только аккуратнее, не трясите!»"
 	
 	var options = [
 		{
-			"text": "Взять {item_name}{count_text}".format({
-				"item_name": item_data["item_name"],
-				"count_text": " (x{count})".format({"count": item_data["item_count"]}) if item_data["item_count"] > 1 else ""
-			}),
+			"text": "Взять шампанское",
+			"callback": Callable(self, "_give_champagne"),
 			"item_data": {
-				"name": item_data["item_name"],
-				"texture": item_data["texture_path"],
-				"count": item_data["item_count"]
+				"name": "Шампанское Moët & Chandon",
+				"texture": "res://assets/champagne.png",  # Используйте вашу текстуру
+				"count": 1
 			}
 		},
 		{
-			"text": "Оставить в сундуке",
-			"callback": Callable(self, "_on_leave_item")
+			"text": "Спросить о вечере",
+			"callback": Callable(self, "_on_ask_about_party"),
+			"keep_open": true
 		}
 	]
 	
 	if Global != null:
 		Global.show_dialog(dialog_text, options)
 
-func _on_leave_item():
-	# Игрок решил оставить предмет в сундуке
+func _give_champagne():
+	has_champagne = false
 	if Global != null:
-		Global.show_message("Вы оставили предмет в сундуке", 2.0)
-	
-	# Возвращаем визуал сундука к полуоткрытому состоянию
-	if has_node("Sprite2D"):
-		$Sprite2D.modulate = Color(0.7, 0.7, 0.7)
-	
-	# Устанавливаем флаг, что сундук еще можно открыть
-	was_opened = false
+		Global.show_message("Мария отдает вам шампанское", 2.0)
 
-# Функция для сброса сундука (если нужно использовать повторно)
-func reset_chest():
-	was_opened = false
-	if has_node("Sprite2D"):
-		$Sprite2D.modulate = Color(1, 1, 1)
+func _on_ask_about_party():
+	var dialog_text = "МАРИЯ: «Аркадий всегда так нервничает перед своими мероприятиями. Каждый раз одно и то же - то освещение не то, то шампанское не той температуры... Слава богу, сегодня хоть гости вежливые.»"
 	
-	print("Сундук сброшен и готов к открытию")
-
-# Функция для проверки, открыт ли сундук
-func is_opened() -> bool:
-	return was_opened
+	var options = [
+		{
+			"text": "Вернуться к шампанскому",
+			"callback": Callable(self, "talk_to_maid"),
+			"keep_open": true
+		},
+		{
+			"text": "Поблагодарить и уйти",
+			"callback": Callable()
+		}
+	]
+	
+	if Global != null:
+		Global.show_dialog(dialog_text, options)

@@ -106,10 +106,18 @@ func update_dialog_position():
 	if dialog_panel:
 		var viewport_size = get_viewport().size
 		# Размещаем диалог по центру снизу с адаптивными отступами
-		var margin_bottom = 40
+		var margin_bottom = 60
+		var dialog_width = dialog_panel.size.x
 		var dialog_height = dialog_panel.size.y
+		
+		# Ограничиваем максимальный размер диалога
+		var max_dialog_height = viewport_size.y * 0.7  # Максимум 70% от высоты экрана
+		if dialog_height > max_dialog_height:
+			dialog_height = max_dialog_height
+			dialog_panel.size = Vector2(dialog_panel.size.x, dialog_height)
+		
 		dialog_panel.position = Vector2(
-			(viewport_size.x - dialog_panel.size.x) / 2,
+			(viewport_size.x - dialog_width) / 2,
 			viewport_size.y - dialog_height - margin_bottom
 		)
 
@@ -224,7 +232,7 @@ func create_simple_hud_inventory():
 	update_inventory_position.call_deferred()
 
 func create_dialog():
-	print("Создаю универсальное диалоговое окно...")
+	print("Создаю адаптивное диалоговое окно...")
 	
 	dialog = CanvasLayer.new()
 	dialog.name = "Dialog"
@@ -234,8 +242,8 @@ func create_dialog():
 	dialog_panel = Panel.new()
 	dialog_panel.name = "Panel"
 	
-	# Размер и позиция панели (внизу по центру)
-	dialog_panel.size = Vector2(700, 300)
+	# Размер и позиция панели (адаптивные)
+	dialog_panel.size = Vector2(800, 350)
 	
 	# Стиль панели
 	var panel_style = StyleBoxFlat.new()
@@ -252,25 +260,41 @@ func create_dialog():
 	
 	dialog_panel.add_theme_stylebox_override("panel", panel_style)
 	
+	# Основной контейнер
+	var main_container = VBoxContainer.new()
+	main_container.name = "MainContainer"
+	main_container.size = Vector2(760, 310)
+	main_container.position = Vector2(20, 20)
+	main_container.set("theme_override_constants/separation", 15)
+	dialog_panel.add_child(main_container)
+	
 	# Текст диалога
 	dialog_label = Label.new()
 	dialog_label.name = "DialogLabel"
-	dialog_label.position = Vector2(40, 30)
-	dialog_label.size = Vector2(620, 140)
+	dialog_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	dialog_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	dialog_label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
 	dialog_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-	dialog_label.add_theme_font_size_override("font_size", 24)
+	dialog_label.add_theme_font_size_override("font_size", 22)  # Уменьшили немного шрифт
 	dialog_label.add_theme_color_override("font_color", Color(0.9, 0.9, 1.0))
 	dialog_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	dialog_panel.add_child(dialog_label)
+	dialog_label.size = Vector2(760, 150)  # Фиксированная высота для текста
+	main_container.add_child(dialog_label)
 	
-	# Контейнер для кнопок ответов
+	# Контейнер для прокрутки кнопок
+	var scroll_container = ScrollContainer.new()
+	scroll_container.name = "ScrollContainer"
+	scroll_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll_container.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll_container.custom_minimum_size = Vector2(0, 140)  # Минимальная высота для кнопок
+	main_container.add_child(scroll_container)
+	
+	# Контейнер для кнопок ответов внутри ScrollContainer
 	dialog_buttons_container = VBoxContainer.new()
 	dialog_buttons_container.name = "ButtonsContainer"
-	dialog_buttons_container.position = Vector2(40, 180)
-	dialog_buttons_container.size = Vector2(620, 100)
-	dialog_buttons_container.set("theme_override_constants/separation", 10)
-	dialog_panel.add_child(dialog_buttons_container)
+	dialog_buttons_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	dialog_buttons_container.set("theme_override_constants/separation", 8)  # Уменьшили расстояние между кнопками
+	scroll_container.add_child(dialog_buttons_container)
 	
 	dialog.add_child(dialog_panel)
 	get_tree().root.call_deferred("add_child", dialog)
@@ -278,10 +302,11 @@ func create_dialog():
 	# Скрываем диалог при создании
 	dialog.hide()
 	
-	print("✓ Универсальное диалоговое окно создано (скрыто)")
+	print("✓ Адаптивное диалоговое окно создано (скрыто)")
 	
 	# Обновляем позицию
 	update_dialog_position.call_deferred()
+
 
 # Очистить все кнопки диалога
 func clear_dialog_buttons():
@@ -295,8 +320,9 @@ func create_dialog_button(button_text: String, callback: Callable = Callable(), 
 	var button = Button.new()
 	button.text = button_text
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	button.custom_minimum_size = Vector2(0, 50)
+	button.custom_minimum_size = Vector2(0, 42)  # Уменьшили высоту кнопок
 	button.focus_mode = Control.FOCUS_ALL
+	button.clip_text = true  # Обрезаем текст если не помещается
 	
 	# Стиль кнопки
 	var button_style = StyleBoxFlat.new()
@@ -312,7 +338,7 @@ func create_dialog_button(button_text: String, callback: Callable = Callable(), 
 	button_style.corner_radius_bottom_right = 8
 	
 	button.add_theme_stylebox_override("normal", button_style)
-	button.add_theme_font_size_override("font_size", 20)
+	button.add_theme_font_size_override("font_size", 18)  # Уменьшили размер шрифта
 	button.add_theme_color_override("font_color", Color(1, 1, 1))
 	
 	# Эффект при наведении
@@ -515,6 +541,8 @@ static func hide_dialog():
 # Получить текстуру предмета по имени
 func get_item_texture(item_name: String) -> String:
 	match item_name:
+		"Шампанское Moët & Chandon":
+			return "res://assets/shampanskoye.png" 
 		"Золотая монета":
 			return "res://assets/wood_tile.png"
 		"Ключ":

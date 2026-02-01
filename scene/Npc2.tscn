@@ -1,7 +1,7 @@
-[gd_scene load_steps=26 format=3 uid="uid://c1ecg5cqvlmvo"]
+[gd_scene load_steps=26 format=3 uid="uid://cldbo015qp5by"]
 
 [ext_resource type="Script" path="res://scripts/Npc2.gd" id="1_vasor"]
-[ext_resource type="Texture2D" path="res://assets/detective_sprite_by_willowwhips_dc5xcyw-fullview-no-bg-preview (carve.photos).png" id="2_k802c"]
+[ext_resource type="Texture2D" uid="uid://dk5btrcg2lxjm" path="res://assets/detective_sprite_by_willowwhips_dc5xcyw-fullview-no-bg-preview (carve.photos).png" id="2_k802c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tah7x"]
 size = Vector2(28, 40)

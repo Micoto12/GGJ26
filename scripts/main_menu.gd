@@ -21,7 +21,7 @@ func _on_start_button_pressed() -> void:
 	# Даем время на создание UI
 	await get_tree().create_timer(0.1).timeout
 	
-	get_tree().change_scene_to_file("res://scene/castle.tscn")
+	get_tree().change_scene_to_file("res://scene/INTRO.tscn")
 
 func _on_exit_button_pressed() -> void:
 	get_tree().quit()
